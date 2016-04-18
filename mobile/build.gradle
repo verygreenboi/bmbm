@@ -1,0 +1,113 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.github.triplet.play'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "net.glassstones.bambammusic"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        releaseConfig {
+            storeFile file('../bambam_key.jks');
+            storePassword("P@bopov!b234...");
+            keyAlias("Bam Bam");
+            keyPassword("Pabopovib234.");
+        }
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
+            setApplicationIdSuffix(".release")
+        }
+        debug {
+            debuggable true
+            setApplicationIdSuffix(".debug")
+        }
+    }
+
+    dexOptions {
+        preDexLibraries = false
+    }
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    debugWearApp project(path: ':wear', configuration: 'debug')
+    releaseWearApp project(path: ':wear', configuration: 'release')
+    testCompile 'junit:junit:4.12'
+    testCompile "org.robolectric:robolectric:3.0"
+
+
+    compile('com.facebook.android:facebook-android-sdk:4.11.0') {
+        exclude group: 'com.parse.bolts', module: 'bolts-android'
+    }
+    compile('com.facebook.fresco:fresco:0.9.0') {
+        exclude group: 'com.parse.bolts', module: 'bolts-android'
+    }
+
+    // Square Libs
+    compile('com.squareup.retrofit:retrofit:2.0.0-beta2') {
+        // exclude Retrofit’s OkHttp peer-dependency module and define your own module import
+        exclude module: 'okhttp'
+    }
+
+    androidTestCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:preference-v7:23.2.1'
+    compile 'com.android.support:preference-v14:23.2.1'
+    compile 'com.android.support:design:23.2.1'
+    compile 'com.android.support:palette-v7:23.2.1'
+    compile 'com.android.support:recyclerview-v7:23.2.1'
+    compile 'com.android.support:cardview-v7:23.2.1'
+    compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.android.support:support-annotations:23.2.1'
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'io.realm:realm-android:0.86.0'
+    compile 'com.github.clans:fab:1.6.2'
+    compile 'konifar:fab-transformation:1.0.0'
+    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+    compile 'com.squareup:otto:1.3.8'
+    compile 'com.squareup.okhttp:okhttp:2.6.0'
+    compile 'com.mcxiaoke.volley:library:1.0.18'
+    compile 'com.github.amlcurran.showcaseview:library:5.0.0'
+    compile 'com.github.Glassstone-Solutions:Android-Essentials:v1.1.2'
+    compile 'com.ocpsoft:ocpsoft-pretty-time:1.0.7'
+    compile 'co.paystack.android:paystack:1.2.0'
+    compile 'com.github.dbachelder:CreditCardEntry:1.4.7'
+    compile 'com.apradanas.simplelinkabletext:library:1.0.3@aar'
+}
+
+play {
+    jsonFile = file('keys.json')
+}
+
+afterEvaluate {
+    tasks.matching {
+        it.name.startsWith('dex')
+    }.each { dx ->
+        if (dx.additionalParameters == null) {
+            dx.additionalParameters = []
+        }
+        dx.additionalParameters += '--multi-dex'
+//        dx.additionalParameters += "--main-dex-list=$projectDir/<filename>".toString()
+    }
+}

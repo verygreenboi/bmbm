@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#b58a3f</color>
+    <color name="colorPrimaryDark">#946b24</color>
+    <color name="colorAccent">#D23130</color>
+    <color name="colorAccentDark">#d72422</color>
+    <color name="scrim">#32000000</color>
+
+
+    <color name="colorFAB1">#2196F3</color>
+    <color name="colorFAB2">#E040FB</color>
+
+    <color name="primary_text_light">#dd000000</color>
+    <color name="primary_colored_text">#ddb58a3f</color>
+    <color name="secondary_text_light">#8a000000</color>
+    <color name="secondary_text_dark">#b3ffffff</color>
+    <color name="secondary_colored_text">#8ab58a3f</color>
+
+
+    <color name="yellow">#ffe63c</color>
+    <color name="nav_selected">#21201f</color>
+    <color name="light_gray">#F5F5F5</color>
+    <color name="white">#fafafa</color>
+    <color name="navy">#2e4551</color>
+    <color name="black">#2d2b2b</color>
+    <color name="build">#bc4e3e</color>
+    <color name="grow">#e7ad42</color>
+    <color name="monetize">#5fb069</color>
+    <color name="hackerway">#77b7c9</color>
+    <color name="thegarage">#3b5998</color>
+    <color name="internetorg">#d32ec6</color>
+    <color name="gameslounge">#d8532f</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="black_semi_transparent">#B2000000</color>
+</resources>

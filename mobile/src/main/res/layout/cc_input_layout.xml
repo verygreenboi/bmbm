@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <!--<net.glassstones.library.ui.widget.CustomFontTextView-->
+        <!--android:id="@+id/title"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:iFont="@string/avenir_next_lT_pro"/>-->
+
+    <com.devmarvel.creditcardentry.library.CreditCardForm
+        android:id="@+id/credit_card_form"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:helper_text_color="@color/colorAccent"
+        app:include_helper="false"
+        app:include_zip="false"/>
+
+</LinearLayout>

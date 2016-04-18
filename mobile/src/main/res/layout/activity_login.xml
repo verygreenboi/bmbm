@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.glassstones.bambammusic.ui.activities.LoginActivity"
+    android:background="@color/colorPrimary">
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/app_title"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display2"/>
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="242dp"
+        android:layout_height="41dp"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_login" />
+
+    <TextView
+        android:id="@+id/tos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:linksClickable="true"
+        android:text="@string/privacy_policy"
+        android:textColor="@color/abc_primary_text_material_dark"
+        android:textSize="13sp" />
+
+</RelativeLayout>

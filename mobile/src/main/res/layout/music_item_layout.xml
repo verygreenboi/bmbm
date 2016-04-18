@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/ll_top_meta"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdvImage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            fresco:placeholderImage="@color/colorPrimary"
+            fresco:placeholderImageScaleType="fitCenter"
+            fresco:roundAsCircle="true"/>
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="64dp"
+            android:layout_marginStart="64dp"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/colorPrimary"
+            android:text="Username"/>
+
+        <TextView
+            android:id="@+id/tv_time_ago"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/colorPrimary"
+            android:text="7min ago"/>
+
+    </FrameLayout>
+
+    <net.glassstones.bambammusic.ui.widgets.SquaredFrameLayout
+        android:id="@+id/art_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_top_meta">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/iv_art"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            fresco:progressBarImage="@drawable/progress_bar"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/scrim"/>
+
+    </net.glassstones.bambammusic.ui.widgets.SquaredFrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/art_layout"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:id="@+id/tv_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_comment"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginEnd="80dp"
+            android:layout_gravity="center_vertical|end"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_comments"
+            />
+
+        <ImageView
+            android:id="@+id/iv_like"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_gravity="center_vertical|end"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_heart_outline_white"
+            />
+
+        <ImageView
+            android:id="@+id/iv_more"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_more_vert"
+            android:layout_gravity="center_vertical|end"
+            android:tint="@color/white"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/art_layout"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin">
+
+        <com.apradanas.simplelinkabletext.LinkableTextView
+            android:id="@+id/tv_cm_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+        <com.apradanas.simplelinkabletext.LinkableTextView
+            android:id="@+id/tv_cm_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+        <com.apradanas.simplelinkabletext.LinkableTextView
+            android:id="@+id/tv_cm_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:background="@color/colorPrimary"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

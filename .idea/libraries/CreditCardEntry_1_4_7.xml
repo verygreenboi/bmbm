@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="CreditCardEntry-1.4.7">
+    <ANNOTATIONS>
+      <root url="jar://$PROJECT_DIR$/mobile/build/intermediates/exploded-aar/com.github.dbachelder/CreditCardEntry/1.4.7/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/mobile/build/intermediates/exploded-aar/com.github.dbachelder/CreditCardEntry/1.4.7/res" />
+      <root url="jar://$PROJECT_DIR$/mobile/build/intermediates/exploded-aar/com.github.dbachelder/CreditCardEntry/1.4.7/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

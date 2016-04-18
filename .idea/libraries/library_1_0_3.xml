@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="library-1.0.3">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/mobile/build/intermediates/exploded-aar/com.apradanas.simplelinkabletext/library/1.0.3/res" />
+      <root url="jar://$PROJECT_DIR$/mobile/build/intermediates/exploded-aar/com.apradanas.simplelinkabletext/library/1.0.3/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.apradanas.simplelinkabletext/library/1.0.3/6b309d942047ff33048aa6fde0970d5a844b9fce/library-1.0.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

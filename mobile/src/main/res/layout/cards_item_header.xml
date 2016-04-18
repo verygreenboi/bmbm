@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="112dp"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <FrameLayout
+        android:id="@+id/ccImgWrap"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/ccImg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/cc_image_desc" />
+
+    </FrameLayout>
+
+    <net.glassstones.library.ui.widget.CustomTextView
+        android:id="@+id/ccLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_toLeftOf="@+id/ccImgWrap"
+        android:layout_toStartOf="@+id/ccImgWrap"
+        app:font="@string/avenir_next_lT_pro_medium_cn_thin_it" />
+
+    <net.glassstones.library.ui.widget.CustomTextView
+        android:id="@+id/ccStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ccLabel"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_toLeftOf="@+id/ccImgWrap"
+        android:layout_toStartOf="@+id/ccImgWrap"
+        app:font="@string/avenir_next_lT_pro" />
+
+</RelativeLayout>

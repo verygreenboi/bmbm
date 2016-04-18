@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home_fragment"
+            android:icon="@drawable/ic_tunes"
+            android:title="@string/txt_timeline"
+            android:checked="true" />
+        <item
+            android:id="@+id/nav_first_fragment"
+            android:icon="@drawable/ic_action_trending"
+            android:title="@string/txt_trending" />
+        <item
+            android:id="@+id/nav_second_fragment"
+            android:icon="@drawable/ic_action_friends"
+            android:title="@string/txt_friends" />
+        <item
+            android:id="@+id/nav_third_fragment"
+            android:icon="@drawable/ic_chat"
+            android:title="@string/txt_messages" />
+    </group>
+    <group android:checkableBehavior="single">
+        <item
+            android:icon="@drawable/ic_download"
+            android:title="Downloads" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings" />
+    </group>
+</menu>

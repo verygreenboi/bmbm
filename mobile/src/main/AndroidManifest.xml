@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.glassstones.bambammusic">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".Common"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".ui.activities.HomeActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activities.LoginActivity"
+            android:theme="@style/login_screen" />
+        <activity
+            android:name=".ui.activities.ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".ui.activities.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.glassstones.bambammusic.ui.activities.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.activities.UploadTuneActivity"
+            android:label="@string/title_activity_upload_tune"
+            android:parentActivityName=".ui.activities.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.glassstones.bambammusic.ui.activities.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.activities.AddCardActivity"
+            android:label="@string/title_activity_add_card"
+            android:parentActivityName=".ui.activities.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.glassstones.bambammusic.ui.activities.HomeActivity" />
+        </activity>
+
+        <service
+            android:name=".services.UploadTuneService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.activities.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".ui.activities.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.glassstones.bambammusic.ui.activities.HomeActivity" />
+        </activity>
+    </application>
+
+</manifest>

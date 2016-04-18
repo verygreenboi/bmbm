@@ -62,20 +62,29 @@
                 android:value="net.glassstones.bambammusic.ui.activities.HomeActivity" />
         </activity>
 
-        <service
-            android:name=".services.UploadTuneService"
-            android:enabled="true"
-            android:exported="false" />
 
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".ui.activities.HomeActivity">
+            android:parentActivityName=".ui.activities.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.glassstones.bambammusic.ui.activities.HomeActivity" />
         </activity>
+
+        <service
+            android:name=".services.UploadTuneService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".services.UpdateLocalTunesService"
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

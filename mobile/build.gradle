@@ -18,10 +18,13 @@ android {
 
     signingConfigs {
         releaseConfig {
-            storeFile file('../bambam_key.jks');
-            storePassword("P@bopov!b234...");
-            keyAlias("Bam Bam");
-            keyPassword("Pabopovib234.");
+            storeFile file('C:\\Users\\Thompson\\OneDrive\\Documents\\keystore\\glassstones.jks');
+//            storePassword("P@bopov!b234...");
+//            keyAlias("Bam Bam");
+//            keyPassword("Pabopovib234.");
+            storePassword("P@b0p0v!b");
+            keyAlias("bambam");
+            keyPassword("P@b0p0v!b");
         }
     }
 
@@ -79,6 +82,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.2.1'
     compile 'com.android.support:support-v4:23.2.1'
     compile 'com.android.support:support-annotations:23.2.1'
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'io.realm:realm-android:0.86.0'

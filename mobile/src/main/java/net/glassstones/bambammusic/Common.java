@@ -1,7 +1,6 @@
 package net.glassstones.bambammusic;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -26,7 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import co.paystack.android.PaystackSdk;
@@ -39,13 +37,12 @@ public class Common extends Application {
     public static Common mInstance;
     private static Realm realm;
     private static JSONObject user;
+    private RequestQueue mRequestQueue;
 
     public synchronized static Common getsInstance() {
         assert mInstance != null;
         return mInstance;
     }
-
-    private RequestQueue mRequestQueue;
 
     public static Realm getRealm() {
         return realm;
@@ -73,7 +70,6 @@ public class Common extends Application {
         ParseInstallation.getCurrentInstallation().saveInBackground();
 
         realm = Realm.getInstance(this);
-
 
 
         mRequestQueue = Volley.newRequestQueue(this);
@@ -111,8 +107,8 @@ public class Common extends Application {
         /**
          * Make a GET request and return a parsed object from JSON.
          *
-         * @param url URL of the request to make
-         * @param clazz Relevant class object, for Gson's reflection
+         * @param url     URL of the request to make
+         * @param clazz   Relevant class object, for Gson's reflection
          * @param headers Map of request headers
          */
         public GsonRequest(String url, Class<T> clazz, Map<String, String> headers,

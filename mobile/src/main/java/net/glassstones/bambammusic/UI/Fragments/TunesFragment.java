@@ -104,18 +104,18 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (tunesList.size() == 0) {
-            srvRefresh.setRefreshing(true);
-        }
-        srvRefresh.post(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        srvRefresh.setRefreshing(true);
-                        fetchTunes();
-                    }
-                }
-        );
+//        if (tunesList.size() == 0) {
+//            srvRefresh.setRefreshing(true);
+//        }
+//        srvRefresh.post(
+//                new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        srvRefresh.setRefreshing(true);
+//                        fetchTunes();
+//                    }
+//                }
+//        );
 
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRecycler.setAdapter(adapter);

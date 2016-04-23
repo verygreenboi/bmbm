@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_id": "bambam-1266",
+    "project_number": "201720719854",
+    "name": "BamBam"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201720719854:android:51c3afb5d35a6896",
+        "client_id": "android:net.glassstones.bambammusic",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "net.glassstones.bambammusic",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "201720719854-7vaiv0jbejoe1h7e8nsf4elih6prvp0t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.glassstones.bambammusic",
+            "certificate_hash": "C132EB84B767DFD317BAD9B14DECBA82EB892135"
+          }
+        },
+        {
+          "client_id": "201720719854-bhcpgr04be4ud4vqhe6lh5re4vpdfaai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

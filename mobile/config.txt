@@ -1,0 +1,939 @@
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\libs\ParseInterceptors-0.0.2.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\libs\bolts-tasks-1.4.0-javadoc.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\libs\ParseFacebookUtilsV4-1.10.4.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\libs\bolts-tasks-1.4.0.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\libs\ParseTwitterUtils-1.10.5.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\libs\Parse-1.13.0.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit2\retrofit\2.0.0-beta4\739e00dea1f0ac04fdb9b6160d667e23cc50a791\retrofit-2.0.0-beta4.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.1.2\7052283359001bb108753cb0583a887d3bf94c82\okhttp-3.1.2.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\org.greenrobot\eventbus\3.0.0\ddd99896e9569eaababbe81b35d80e1b91c4ad85\eventbus-3.0.0.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\io.realm\realm-android\0.86.0\e49a43bcbbc3d5e5491dd2f4d3799a504b618e6b\realm-android-0.86.0.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\com.ocpsoft\ocpsoft-pretty-time\1.0.7\7ffb3bd5c0254f3895a2b647ea882df4eea0a166\ocpsoft-pretty-time-1.0.7.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\org.parceler\parceler\0.2.13\ea3579621a7fe7083e7f7bb8be0d90c8751acbf9\parceler-0.2.13.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\org.parceler\parceler-api\0.2.13\3bdd7267446c60215c6165a8129cc572ad407660\parceler-api-0.2.13.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\commons-io\commons-io\2.4\b1b6ea3b7e4aa4f492509a4952029cd8e48019ad\commons-io-2.4.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.6.1\b9d63507329a7178e026fc334f87587ee5070ac5\gson-2.6.1.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.3.0\support-annotations-23.3.0.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit2\converter-gson\2.0.0-beta4\de5935a367ba5e343e9df786ac8fc0c7d52b5f0c\converter-gson-2.0.0-beta4.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\com.mcxiaoke.volley\library\1.0.18\38da306aafee11459cd935a01d2c92a98dc670a4\library-1.0.18.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.6.0\98476622f10715998eacf9240d6b479f12c66143\okio-1.6.0.jar'(**/*.class)
+-injars 'C:\Users\Thompson\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife\7.0.1\d5d13ea991eab0252e3710e5df3d6a9d4b21d461\butterknife-7.0.1.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.android.support\multidex\1.0.1\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.11.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.android.support\customtabs\23.2.1\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.facebook.fresco\fresco\0.9.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.facebook.fresco\drawee\0.9.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline\0.9.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-base\0.9.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.9.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.android.support\preference-v14\23.3.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.android.support\preference-v7\23.3.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.android.support\design\23.3.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.android.support\palette-v7\23.3.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.3.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.3.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\8.4.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-measurement\8.4.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.github.clans\fab\1.6.2\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\konifar\fab-transformation\1.0.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.github.amlcurran.showcaseview\library\5.0.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.github.Glassstone-Solutions\Android-Essentials\v1.1.2\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.github.Glassstone-Solutions\Android-Essentials\v1.1.2\jars\libs\httpclient-4.3.6.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.3.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.3.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.3.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\co.paystack.android\paystack\1.2.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.github.dbachelder\CreditCardEntry\1.4.7\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.apradanas.simplelinkabletext\library\1.0.3\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\me.tatarka.support\jobscheduler\0.1.1\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\classes.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\libs\internal_impl-23.3.0.jar'(**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\transforms\mergeJavaRes\release\jars\2\1f\main.jar'(!**/*.class)
+-injars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\classes\release'(**/*.class)
+-outjars 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\intermediates\transforms\proguard\release\jars\3\1f\main.jar'
+
+-libraryjars 'C:\Users\Thompson\AppData\Local\Android\sdk\platforms\android-23\android.jar'
+-libraryjars 'C:\Users\Thompson\AppData\Local\Android\sdk\platforms\android-23\optional\org.apache.http.legacy.jar'
+
+-forceprocessing
+-printusage 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\outputs\mapping\release\usage.txt'
+-dontoptimize
+-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
+-optimizationpasses 5
+-allowaccessmodification
+-dontobfuscate
+-printmapping 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\outputs\mapping\release\mapping.txt'
+-dontusemixedcaseclassnames
+-keepattributes *Annotation*,*Annotation*,*Annotation*,*Annotation*
+-dontpreverify
+-verbose
+-dontnote android.net.http.*,org.apache.commons.codec.**,org.apache.http.**
+-dontwarn android.security.NetworkSecurityPolicy,android.security.NetworkSecurityPolicy,android.support.**,android.support.**,com.google.ads.**,butterknife.internal.**,javax.**,io.realm.**,okio.**,javax.annotation.**,com.android.volley.toolbox.**,com.squareup.okhttp.internal.huc.**,retrofit.appengine.UrlFetchClient,rx.**,org.apache.commons.collections.BeanMap,java.beans.**,android.security.NetworkSecurityPolicy,android.security.NetworkSecurityPolicy
+-printconfiguration 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\config.txt'
+-dump 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\outputs\mapping\release\dump.txt'
+-printseeds 'C:\Users\Thompson\AndroidStudioProjects\BambamMusic\mobile\build\outputs\mapping\release\seeds.txt'
+
+
+-keep class * extends java.util.ListResourceBundle {
+    protected java.lang.Object[][] getContents();
+}
+
+# Keep SafeParcelable value, needed for reflection. This is required to support backwards
+# compatibility of some classes.
+-keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
+    public static final *** NULL;
+}
+
+# Keep the names of classes/members we need for client functionality.
+-keep @interface  com.google.android.gms.common.annotation.KeepName
+
+-keep,allowshrinking @com.google.android.gms.common.annotation.KeepName class *
+
+-keepclassmembers,allowshrinking class * {
+    @com.google.android.gms.common.annotation.KeepName
+    <fields>;
+    @com.google.android.gms.common.annotation.KeepName
+    <methods>;
+}
+
+# Needed for Parcelable/SafeParcelable Creators to not get stripped
+-keep,allowshrinking class * extends android.os.Parcelable {
+    public static final ** CREATOR;
+}
+
+# Keep metadata about included modules.
+-keep public class com.google.android.gms.dynamite.descriptors.** {
+    public <fields>;
+}
+
+# Keep the implementation of the flags api for google-play-services-flags
+-keep public class com.google.android.gms.flags.impl.FlagProviderImpl {
+    public <fields>;
+    public <methods>;
+}
+
+-keep class * extends java.util.ListResourceBundle {
+    protected java.lang.Object[][] getContents();
+}
+
+# Keep SafeParcelable value, needed for reflection. This is required to support backwards
+# compatibility of some classes.
+-keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
+    public static final *** NULL;
+}
+
+# Keep the names of classes/members we need for client functionality.
+-keep @interface  com.google.android.gms.common.annotation.KeepName
+
+-keep,allowshrinking @com.google.android.gms.common.annotation.KeepName class *
+
+-keepclassmembers,allowshrinking class * {
+    @com.google.android.gms.common.annotation.KeepName
+    <fields>;
+    @com.google.android.gms.common.annotation.KeepName
+    <methods>;
+}
+
+# Needed for Parcelable/SafeParcelable Creators to not get stripped
+-keep,allowshrinking class * extends android.os.Parcelable {
+    public static final ** CREATOR;
+}
+
+# Keep metadata about included modules.
+-keep public class com.google.android.gms.dynamite.descriptors.** {
+    public <fields>;
+}
+
+# Keep the implementation of the flags api for google-play-services-flags
+-keep public class com.google.android.gms.flags.impl.FlagProviderImpl {
+    public <fields>;
+    public <methods>;
+}
+
+# Copyright (C) 2015 The Android Open Source Project
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# Preference objects are inflated via reflection
+-keep public class android.support.v7.preference.Preference {
+    public <init>(android.content.Context,android.util.AttributeSet);
+}
+
+-keep public class * extends android.support.v7.preference.Preference {
+    public <init>(android.content.Context,android.util.AttributeSet);
+}
+
+# view res/layout/design_navigation_item.xml #generated:17
+-keep class android.support.design.internal.NavigationMenuItemView {
+    <init>(...);
+}
+
+# view res/layout/design_navigation_menu.xml #generated:17
+-keep class android.support.design.internal.NavigationMenuView {
+    <init>(...);
+}
+
+# view res/layout/activity_add_card.xml #generated:9
+# view res/layout/activity_add_comment.xml #generated:9
+# view res/layout/activity_home.xml #generated:19
+# view res/layout/activity_upload_tune.xml #generated:9
+-keep class android.support.design.widget.AppBarLayout {
+    <init>(...);
+}
+
+# view res/layout/activity_add_comment.xml #generated:15
+-keep class android.support.design.widget.CollapsingToolbarLayout {
+    <init>(...);
+}
+
+# view res/layout/activity_add_card.xml #generated:2
+# view res/layout/activity_add_comment.xml #generated:2
+# view res/layout/activity_home.xml #generated:15
+# view res/layout/activity_upload_tune.xml #generated:2
+# view res/layout/design_bottom_sheet_dialog.xml #generated:17
+-keep class android.support.design.widget.CoordinatorLayout {
+    <init>(...);
+}
+
+# view res/layout/activity_add_card.xml #generated:44
+# view res/layout/activity_add_comment.xml #generated:68
+# view res/layout/activity_upload_tune.xml #generated:46
+-keep class android.support.design.widget.FloatingActionButton {
+    <init>(...);
+}
+
+# view res/layout/activity_home.xml #generated:169
+-keep class android.support.design.widget.NavigationView {
+    <init>(...);
+}
+
+# view res/layout/design_layout_snackbar.xml #generated:18
+# view sw600dp-v13\res/layout-sw600dp-v13/design_layout_snackbar.xml #generated:18
+-keep class android.support.design.widget.Snackbar$SnackbarLayout {
+    <init>(...);
+}
+
+# view res/layout/activity_home.xml #generated:2
+-keep class android.support.v4.widget.DrawerLayout {
+    <init>(...);
+}
+
+# view res/layout/abc_alert_dialog_material.xml #generated:75
+-keep class android.support.v4.widget.NestedScrollView {
+    <init>(...);
+}
+
+# view res/layout/abc_alert_dialog_button_bar_material.xml #generated:40
+-keep class android.support.v4.widget.Space {
+    <init>(...);
+}
+
+# view res/layout/fragment_tunes.xml #generated:1
+-keep class android.support.v4.widget.SwipeRefreshLayout {
+    <init>(...);
+}
+
+# view res/layout/preference_material.xml #generated:41
+# view v17\res/layout-v17/preference_material.xml #generated:41
+# view v21\res/layout-v21/preference_material.xml #generated:41
+-keep class android.support.v7.internal.widget.PreferenceImageView {
+    <init>(...);
+}
+
+# view res/layout/abc_action_menu_item_layout.xml #generated:17
+-keep class android.support.v7.view.menu.ActionMenuItemView {
+    <init>(...);
+}
+
+# view res/layout/abc_expanded_menu_layout.xml #generated:17
+-keep class android.support.v7.view.menu.ExpandedMenuView {
+    <init>(...);
+}
+
+# view res/layout/abc_list_menu_item_layout.xml #generated:17
+# view res/layout/abc_popup_menu_item_layout.xml #generated:17
+-keep class android.support.v7.view.menu.ListMenuItemView {
+    <init>(...);
+}
+
+# view res/layout/abc_screen_toolbar.xml #generated:27
+-keep class android.support.v7.widget.ActionBarContainer {
+    <init>(...);
+}
+
+# view res/layout/abc_action_mode_bar.xml #generated:19
+# view res/layout/abc_screen_toolbar.xml #generated:43
+-keep class android.support.v7.widget.ActionBarContextView {
+    <init>(...);
+}
+
+# view res/layout/abc_screen_toolbar.xml #generated:17
+-keep class android.support.v7.widget.ActionBarOverlayLayout {
+    <init>(...);
+}
+
+# view res/layout/abc_action_menu_layout.xml #generated:17
+-keep class android.support.v7.widget.ActionMenuView {
+    <init>(...);
+}
+
+# view res/layout/abc_activity_chooser_view.xml #generated:19
+-keep class android.support.v7.widget.ActivityChooserView$InnerLayout {
+    <init>(...);
+}
+
+# view res/layout/abc_alert_dialog_button_bar_material.xml #generated:18
+-keep class android.support.v7.widget.ButtonBarLayout {
+    <init>(...);
+}
+
+# view res/layout/com_facebook_device_auth_dialog_fragment.xml #generated:22
+# view res/layout/voice_item_layout.xml #generated:2
+-keep class android.support.v7.widget.CardView {
+    <init>(...);
+}
+
+# view res/layout/abc_screen_content_include.xml #generated:19
+-keep class android.support.v7.widget.ContentFrameLayout {
+    <init>(...);
+}
+
+# view res/layout/abc_alert_dialog_material.xml #generated:48
+-keep class android.support.v7.widget.DialogTitle {
+    <init>(...);
+}
+
+# view res/layout/abc_screen_simple_overlay_action_mode.xml #generated:23
+-keep class android.support.v7.widget.FitWindowsFrameLayout {
+    <init>(...);
+}
+
+# view res/layout/abc_dialog_title_material.xml #generated:22
+# view res/layout/abc_screen_simple.xml #generated:17
+-keep class android.support.v7.widget.FitWindowsLinearLayout {
+    <init>(...);
+}
+
+# view res/layout/activity_add_comment.xml #generated:61
+# view res/layout/fragment_list_cards.xml #generated:7
+# view res/layout/fragment_local_tune_list.xml #generated:1
+# view res/layout/fragment_tunes.xml #generated:8
+# view res/layout/preference_recyclerview.xml #generated:18
+-keep class android.support.v7.widget.RecyclerView {
+    <init>(...);
+}
+
+# view res/layout/abc_search_view.xml #generated:78
+-keep class android.support.v7.widget.SearchView$SearchAutoComplete {
+    <init>(...);
+}
+
+# view res/layout/preference_widget_switch_compat.xml #generated:20
+-keep class android.support.v7.widget.SwitchCompat {
+    <init>(...);
+}
+
+# view res/layout/abc_screen_toolbar.xml #generated:36
+# view res/layout/activity_add_card.xml #generated:14
+# view res/layout/activity_add_comment.xml #generated:33
+# view res/layout/activity_home.xml #generated:24
+# view res/layout/activity_settings.xml #generated:7
+# view res/layout/activity_upload_tune.xml #generated:14
+-keep class android.support.v7.widget.Toolbar {
+    <init>(...);
+}
+
+# view res/layout/abc_screen_simple.xml #generated:25
+# view res/layout/abc_screen_simple_overlay_action_mode.xml #generated:32
+-keep class android.support.v7.widget.ViewStubCompat {
+    <init>(...);
+}
+
+# view res/layout/music_item_layout.xml #generated:142
+# view res/layout/music_item_layout.xml #generated:149
+# view res/layout/music_item_layout.xml #generated:156
+-keep class com.apradanas.simplelinkabletext.LinkableTextView {
+    <init>(...);
+}
+
+# view res/layout/cc_input_layout.xml #generated:14
+-keep class com.devmarvel.creditcardentry.library.CreditCardForm {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:32
+-keep class com.facebook.FacebookActivity {
+    <init>(...);
+}
+
+# view res/layout/music_item_layout.xml #generated:14
+# view res/layout/music_item_layout.xml #generated:53
+# view res/layout/nav_header.xml #generated:15
+-keep class com.facebook.drawee.view.SimpleDraweeView {
+    <init>(...);
+}
+
+# view res/layout/activity_home.xml #generated:116
+# view res/layout/activity_home.xml #generated:136
+# view res/layout/activity_home.xml #generated:77
+# view res/layout/activity_home.xml #generated:86
+-keep class com.github.clans.fab.FloatingActionButton {
+    <init>(...);
+}
+
+# view res/layout/activity_home.xml #generated:58
+-keep class com.github.clans.fab.FloatingActionMenu {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:108
+-keep class com.google.android.gms.measurement.AppMeasurementContentProvider {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:113
+-keep class com.google.android.gms.measurement.AppMeasurementReceiver {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:121
+-keep class com.google.android.gms.measurement.AppMeasurementService {
+    <init>(...);
+}
+
+# view res/layout/activity_home.xml #generated:100
+-keep class io.codetail.widget.RevealFrameLayout {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:126
+-keep class me.tatarka.support.internal.job.JobSchedulerService {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:125
+-keep class me.tatarka.support.internal.job.JobServiceCompat {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:146
+-keep class me.tatarka.support.internal.receivers.BootReceiver {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:153
+-keep class me.tatarka.support.internal.receivers.IdleReceiver {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:128
+-keep class me.tatarka.support.internal.receivers.NetworkReceiver {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:135
+-keep class me.tatarka.support.internal.receivers.PowerReceiver {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:162
+-keep class me.tatarka.support.internal.receivers.TimeReceiver {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:21
+-keep class net.glassstones.bambammusic.Common {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:99
+-keep class net.glassstones.bambammusic.services.UpdateLocalTunesService {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:95
+-keep class net.glassstones.bambammusic.services.UploadTuneService {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:67
+-keep class net.glassstones.bambammusic.ui.activities.AddCardActivity {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:85
+-keep class net.glassstones.bambammusic.ui.activities.AddCommentActivity {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:36
+-keep class net.glassstones.bambammusic.ui.activities.HomeActivity {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:46
+-keep class net.glassstones.bambammusic.ui.activities.LoginActivity {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:49
+-keep class net.glassstones.bambammusic.ui.activities.ProfileActivity {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:76
+-keep class net.glassstones.bambammusic.ui.activities.SettingsActivity {
+    <init>(...);
+}
+
+# view AndroidManifest.xml #generated:58
+-keep class net.glassstones.bambammusic.ui.activities.UploadTuneActivity {
+    <init>(...);
+}
+
+# view res/layout/music_item_layout.xml #generated:47
+-keep class net.glassstones.bambammusic.ui.widgets.SquaredFrameLayout {
+    <init>(...);
+}
+
+# view res/layout/cards_item_body.xml #generated:19
+-keep class net.glassstones.library.ui.widget.CustomFontTextView {
+    <init>(...);
+}
+
+# view res/layout/cards_item_header.xml #generated:22
+# view res/layout/cards_item_header.xml #generated:32
+-keep class net.glassstones.library.ui.widget.CustomTextView {
+    <init>(...);
+}
+
+-keep public class com.google.vending.licensing.ILicensingService
+
+-keep public class com.android.vending.licensing.ILicensingService
+
+# For native methods, see http://proguard.sourceforge.net/manual/examples.html#native
+-keepclasseswithmembers,allowshrinking class * {
+    native <methods>;
+}
+
+# keep setters in Views so that animations can still work.
+# see http://proguard.sourceforge.net/manual/examples.html#beans
+-keepclassmembers public class * extends android.view.View {
+    void set*(***);
+    *** get*();
+}
+
+# We want to keep methods in Activity that could be used in the XML attribute onClick
+-keepclassmembers class * extends android.app.Activity {
+    public void *(android.view.View);
+}
+
+# For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations
+-keepclassmembers enum  * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-keepclassmembers class * extends android.os.Parcelable {
+    public static final android.os.Parcelable$Creator CREATOR;
+}
+
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+
+# Understand the @Keep support annotation.
+-keep class android.support.annotation.Keep
+
+-keep @android.support.annotation.Keep class * {
+    <fields>;
+    <methods>;
+}
+
+-keepclasseswithmembers class * {
+    @android.support.annotation.Keep
+    <methods>;
+}
+
+-keepclasseswithmembers class * {
+    @android.support.annotation.Keep
+    <fields>;
+}
+
+-keepclasseswithmembers class * {
+    @android.support.annotation.Keep
+    <init>(...);
+}
+
+# 
+# Note that you cannot just include these flags in your own
+# configuration file; if you are including this file, optimization
+# will be turned off. You'll need to either edit this file, or
+# duplicate the contents of this file and remove the include of this
+# file from your project's proguard.config path property.
+-keep public class * extends android.app.Activity
+
+-keep public class * extends android.app.Application
+
+-keep public class * extends android.app.Service
+
+-keep public class * extends android.content.BroadcastReceiver
+
+-keep public class * extends android.content.ContentProvider
+
+-keep public class * extends android.app.backup.BackupAgent
+
+-keep public class * extends android.preference.Preference
+
+-keep public class * extends android.support.v4.app.Fragment
+
+-keep public class * extends android.support.v4.app.DialogFragment
+
+-keep public class * extends com.actionbarsherlock.app.SherlockListFragment
+
+-keep public class * extends com.actionbarsherlock.app.SherlockFragment
+
+-keep public class * extends com.actionbarsherlock.app.SherlockFragmentActivity
+
+-keep public class * extends android.app.Fragment
+
+-keep public class com.android.vending.licensing.ILicensingService
+
+# For native methods, see http://proguard.sourceforge.net/manual/examples.html#native
+-keepclasseswithmembers,allowshrinking class * {
+    native <methods>;
+}
+
+-keep public class * extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context,android.util.AttributeSet);
+    public <init>(android.content.Context,android.util.AttributeSet,int);
+    public void set*(...);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context,android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context,android.util.AttributeSet,int);
+}
+
+-keepclassmembers class * extends android.app.Activity {
+    public void *(android.view.View);
+}
+
+# For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations
+-keepclassmembers enum  * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-keep class * extends android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
+}
+
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+
+-keep class android.support.v4.app.** {
+    <fields>;
+    <methods>;
+}
+
+-keep interface  android.support.v4.app.** {
+    <fields>;
+    <methods>;
+}
+
+-keep class com.actionbarsherlock.** {
+    <fields>;
+    <methods>;
+}
+
+-keep interface  com.actionbarsherlock.** {
+    <fields>;
+    <methods>;
+}
+
+# # Add project specific ProGuard rules here.
+# # By default, the flags in this file are appended to flags specified
+# # in C:\Users\Thompson\AppData\Local\Android\sdk/tools/proguard/proguard-android.txt
+# # You can edit the include path and order by changing the proguardFiles
+# # directive in build.gradle.
+# #
+# # For more details, see
+# #   http://developer.android.com/guide/developing/tools/proguard.html
+# 
+# # Add any project specific keep options here:
+# 
+# # If your project uses WebView with JS, uncomment the following
+# # and specify the fully qualified class name to the JavaScript interface
+# # class:
+# #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+# #   public *;
+# #}
+# 
+# ######################################
+# # Application
+# ######################################
+# #--------------------
+# # Keep entry point class
+# #--------------------
+# -keep class net.glassstones.bambammusic.AppActivity { *; }
+# 
+# ######################################
+# # android platform
+# ######################################
+# #--------------------
+# # $ANDROID_SDK_ROOT/tools/proguard/proguard-android.txt is refering unknown class
+# #--------------------
+# -dontnote com.google.vending.licensing.ILicensingService
+# -dontnote com.android.vending.licensing.ILicensingService
+# 
+# ######################################
+# # Google Play Services SDK
+# ######################################
+# #--------------------
+# # http://developer.android.com/google/play-services/setup.html#Proguard
+# #--------------------
+# -keep class * extends java.util.ListResourceBundle {
+#    protected java.lang.Object[][] getContents();
+# }
+# 
+# -keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
+#    public static final *** NULL;
+# }
+# 
+# -keepnames @com.google.android.gms.common.annotation.KeepName class *
+# -keepclassmembernames class * {
+#    @com.google.android.gms.common.annotation.KeepName *;
+# }
+# 
+# -keepnames class * implements android.os.Parcelable {
+#    public static final ** CREATOR;
+# }
+# 
+# #--------------------
+# # some classes are used for method's descriptor
+# #--------------------
+-keep class bolts.** {
+    <fields>;
+    <methods>;
+}
+
+-keep class butterknife.** {
+    <fields>;
+    <methods>;
+}
+
+-keep class **$$ViewBinder {
+    <fields>;
+    <methods>;
+}
+
+-keepclasseswithmembers,allowshrinking class * {
+    @butterknife.*
+    <fields>;
+}
+
+-keepclasseswithmembers,allowshrinking class * {
+    @butterknife.*
+    <methods>;
+}
+
+# 
+# Realm
+-keep class io.realm.annotations.RealmModule
+
+-keep @io.realm.annotations.RealmModule class *
+
+-keep class io.realm.internal.Keep
+
+-keep @io.realm.internal.Keep class * {
+    <fields>;
+    <methods>;
+}
+
+# Retrofit
+# -dontwarn retrofit2.**
+# -keep class retrofit2.** { *; }
+# -keepattributes Signature
+# -keepattributes Exceptions
+# -keepclasseswithmembers class * {
+#    @retrofit.http.* <methods>;
+# }
+-keep class com.google.gson.** {
+    <fields>;
+    <methods>;
+}
+
+# Keep our interfaces so they can be used by other ProGuard rules.
+# See http://sourceforge.net/p/proguard/bugs/466/
+-keep,allowobfuscation @interface  com.facebook.common.internal.DoNotStrip
+
+# Do not strip any method/class that is annotated with @DoNotStrip
+-keep @com.facebook.common.internal.DoNotStrip class *
+
+-keepclassmembers class * {
+    @com.facebook.common.internal.DoNotStrip
+    <fields>;
+    @com.facebook.common.internal.DoNotStrip
+    <methods>;
+}
+
+# Keep native methods
+-keepclassmembers class * {
+    native <methods>;
+}
+
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe
+    <methods>;
+}
+
+-keep enum  org.greenrobot.eventbus.ThreadMode {
+    <fields>;
+    <methods>;
+}
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+
+# Parse
+-keep class com.parse.** {
+    <fields>;
+    <methods>;
+}
+
+-keep class org.ocpsoft.prettytime.i18n.**
+
+-keep class * extends java.util.ListResourceBundle {
+    protected java.lang.Object[][] getContents();
+}
+
+# Keep SafeParcelable value, needed for reflection. This is required to support backwards
+# compatibility of some classes.
+-keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
+    public static final *** NULL;
+}
+
+# Keep the names of classes/members we need for client functionality.
+-keep @interface  com.google.android.gms.common.annotation.KeepName
+
+-keep,allowshrinking @com.google.android.gms.common.annotation.KeepName class *
+
+-keepclassmembers,allowshrinking class * {
+    @com.google.android.gms.common.annotation.KeepName
+    <fields>;
+    @com.google.android.gms.common.annotation.KeepName
+    <methods>;
+}
+
+# Needed for Parcelable/SafeParcelable Creators to not get stripped
+-keep,allowshrinking class * extends android.os.Parcelable {
+    public static final ** CREATOR;
+}
+
+# Keep metadata about included modules.
+-keep public class com.google.android.gms.dynamite.descriptors.** {
+    public <fields>;
+}
+
+# Keep the implementation of the flags api for google-play-services-flags
+-keep public class com.google.android.gms.flags.impl.FlagProviderImpl {
+    public <fields>;
+    public <methods>;
+}
+
+# Copyright (C) 2015 The Android Open Source Project
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# CoordinatorLayout resolves the behaviors of its child components with reflection.
+-keep public class * extends android.support.design.widget.CoordinatorLayout$Behavior {
+    public <init>(android.content.Context,android.util.AttributeSet);
+    public <init>();
+}
+
+-keep class * extends java.util.ListResourceBundle {
+    protected java.lang.Object[][] getContents();
+}
+
+# Keep SafeParcelable value, needed for reflection. This is required to support backwards
+# compatibility of some classes.
+-keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
+    public static final *** NULL;
+}
+
+# Keep the names of classes/members we need for client functionality.
+-keep @interface  com.google.android.gms.common.annotation.KeepName
+
+-keep,allowshrinking @com.google.android.gms.common.annotation.KeepName class *
+
+-keepclassmembers,allowshrinking class * {
+    @com.google.android.gms.common.annotation.KeepName
+    <fields>;
+    @com.google.android.gms.common.annotation.KeepName
+    <methods>;
+}
+
+# Needed for Parcelable/SafeParcelable Creators to not get stripped
+-keep,allowshrinking class * extends android.os.Parcelable {
+    public static final ** CREATOR;
+}
+
+# Keep metadata about included modules.
+-keep public class com.google.android.gms.dynamite.descriptors.** {
+    public <fields>;
+}
+
+# Keep the implementation of the flags api for google-play-services-flags
+-keep public class com.google.android.gms.flags.impl.FlagProviderImpl {
+    public <fields>;
+    public <methods>;
+}
+
+# Copyright (C) 2015 The Android Open Source Project
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# When layoutManager xml attribute is used, RecyclerView inflates
+# LayoutManagers' constructors using reflection.
+-keep public class * extends android.support.v7.widget.RecyclerView$LayoutManager {
+    public <init>(...);
+}

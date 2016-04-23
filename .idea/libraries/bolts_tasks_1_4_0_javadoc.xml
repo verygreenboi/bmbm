@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="bolts-tasks-1.4.0-javadoc">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/mobile/libs/bolts-tasks-1.4.0-javadoc.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

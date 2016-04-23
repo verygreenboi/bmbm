@@ -5,7 +5,7 @@ public class Constants {
     public static final String PARSE_CLIENT_KEY = "vdt6fZ35u9spxuoDdpHzCm9bvqRNCufKarlzhzbk";
     public static final String PARSE_REST_KEY = "lQd0hFfxV58CadtKoEgl5D2kAAKa34AH8lgjJEP1";
 
-    public static final String KEY_TUNELINE_URL = "https://api.parse.com/1/functions/tuneline";
+    public static final String KEY_TUNELINE_URL = "http://10.0.2.2:1337/parse/functions/tuneline";
     public static final String KEY_TUNELINE_ARRAY_NAME = "result";
 
     public static final String TYPE_IMAGE = "image";
@@ -15,4 +15,5 @@ public class Constants {
 
     public static final String PUBLISHABLE_KEY = "pk_test_e6b1b4905246144ffbca097408db55ff9e982616";
 
+    public static final String SERVER_URL = "http://10.0.2.2:1337/parse/"; //For dev
 }

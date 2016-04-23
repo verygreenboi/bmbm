@@ -3,8 +3,11 @@
     package="net.glassstones.bambammusic">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".Common"
@@ -61,8 +64,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.glassstones.bambammusic.ui.activities.HomeActivity" />
         </activity>
-
-
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -73,6 +74,15 @@
                 android:value="net.glassstones.bambammusic.ui.activities.HomeActivity" />
         </activity>
 
+        <activity
+            android:name=".ui.activities.AddCommentActivity"
+            android:label="@string/title_activity_add_comment"
+            android:parentActivityName=".ui.activities.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.glassstones.bambammusic.ui.activities.HomeActivity" />
+        </activity>
         <service
             android:name=".services.UploadTuneService"
             android:enabled="true"
@@ -80,11 +90,8 @@
         <service
             android:name=".services.UpdateLocalTunesService"
             android:exported="true"
-            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
-            <intent-filter>
-                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
-            </intent-filter>
-        </service>
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
     </application>
 
 </manifest>

@@ -182,8 +182,7 @@ public class LoginActivity extends BaseActivity {
     private void makeMeRequest(final ParseUser parseUser) {
         parseUser.put("has_username", false);
 
-        // TODO: Change UI to indicate login process
-        GraphRequestAsyncTask request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+        GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(final JSONObject user, GraphResponse response) {
                 parseUser.put("name", user.optString("name"));

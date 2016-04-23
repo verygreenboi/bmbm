@@ -2,6 +2,7 @@ package net.glassstones.bambammusic.ui.activities;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -24,10 +25,15 @@ import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.android.gms.gcm.GcmNetworkManager;
+import com.google.android.gms.gcm.GcmTaskService;
+import com.google.android.gms.gcm.PeriodicTask;
+import com.google.android.gms.gcm.Task;
 import com.konifar.fab_transformation.FabTransformation;
 import com.parse.ParseUser;
 
 import net.glassstones.bambammusic.R;
+import net.glassstones.bambammusic.services.UpdateLocalTunesService;
 import net.glassstones.bambammusic.ui.fragments.TunesFragment;
 import net.glassstones.library.utils.LogHelper;
 
@@ -35,11 +41,16 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import me.tatarka.support.job.JobInfo;
+import me.tatarka.support.job.JobScheduler;
 
 
 public class HomeActivity extends BaseActivity {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
+    private static final int JOB_ID = 100;
+
+    private JobScheduler jobScheduler;
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -59,6 +70,7 @@ public class HomeActivity extends BaseActivity {
 
     @OnClick({R.id.menu_item, R.id.menu_item_2, R.id.menu_item_3, R.id.menu_item_4, R.id.rv_voice_overlay}) void onFabClick(View v){
 
+        assert mFab != null;
         mFab.close(true);
 
         switch (v.getId()){
@@ -141,11 +153,21 @@ public class HomeActivity extends BaseActivity {
         }
     };
 
+    private void constructJob(){
+        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, UpdateLocalTunesService.class));
+        builder.setPeriodic(60000)
+        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+        .setPersisted(true);
+        jobScheduler.schedule(builder.build());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        jobScheduler = JobScheduler.getInstance(this);
         if (ParseUser.getCurrentUser() != null) {
+            constructJob();
             assert getSupportActionBar() != null;
             getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -173,6 +195,7 @@ public class HomeActivity extends BaseActivity {
                 FragmentManager fm = getSupportFragmentManager();
                 fm.beginTransaction().replace(R.id.container, TunesFragment.newInstance("parse_id", true)).commit();
             }
+
         } else {
             startActivity(new Intent(this, LoginActivity.class));
             finish();

@@ -1,5 +1,7 @@
 package net.glassstones.bambammusic.ui.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,23 +12,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-
 import net.glassstones.bambammusic.Common;
-import net.glassstones.bambammusic.Constants;
 import net.glassstones.bambammusic.R;
-import net.glassstones.bambammusic.api.Tune;
 import net.glassstones.bambammusic.intefaces.OnCommentInteraction;
+import net.glassstones.bambammusic.models.IntentServiceResult;
 import net.glassstones.bambammusic.models.Tunes;
+import net.glassstones.bambammusic.ui.activities.AddCommentActivity;
 import net.glassstones.bambammusic.ui.adapters.TuneAdapter;
-import net.glassstones.bambammusic.utils.MusicHelper;
 import net.glassstones.bambammusic.utils.helpers.TuneHelper;
 import net.glassstones.library.utils.LogHelper;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -36,10 +36,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 
 public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
-        RealmChangeListener, Response.Listener<JSONObject>, Response.ErrorListener, OnCommentInteraction {
+        RealmChangeListener, OnCommentInteraction {
     private static final String PARSE_ID = "parse_id";
     private static final String IS_CURRENT_USER = "is_current_user";
     private static final String TAG = TunesFragment.class.getSimpleName();
@@ -69,6 +71,7 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParseId = getArguments().getString(PARSE_ID);
             mCurrentUser = getArguments().getBoolean(IS_CURRENT_USER);
@@ -80,7 +83,14 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         r = Common.getRealm();
         r.addChangeListener(this);
 
-        tunesList = r.where(Tunes.class).findAll();
+        RealmResults<Tunes> tx = r.where(Tunes.class).findAll();
+        tx.sort("createdAt", Sort.DESCENDING);
+
+        for (Tunes t : tx) {
+            tunesList.add(t);
+        }
+
+        Log.e(TAG, String.valueOf(tunesList.size()));
 
         adapter = new TuneAdapter(tunesList, getActivity(), isCurrentUser);
 
@@ -130,41 +140,28 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     @Override
-    public void onRefresh() {
-        fetchTunes();
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
     }
 
-    private void fetchTunes() {
-        srvRefresh.setRefreshing(true);
-        Common.mInstance.getRequestQueue().add(MusicHelper.getTuneline(this, this));
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
 
+    @Override
+    public void onRefresh() {
+        tunesList = r.where(Tunes.class).findAll();
+        LogHelper.e(TAG, String.valueOf(tunesList.size()));
+        srvRefresh.setRefreshing(false);
     }
 
     @Override
     public void onChange() {
-        tunesList = r.where(Tunes.class).findAll();
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray jsonTunes;
-        if (srvRefresh.isRefreshing())
-            srvRefresh.setRefreshing(false);
-        try {
-            jsonTunes = response.getJSONArray(Constants.KEY_TUNELINE_ARRAY_NAME);
-            tunesList = TuneHelper.array2tune(jsonTunes);
-            adapter.updateAll(tunesList);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e("ERROR", e.getMessage());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Log.e(TAG, error.getMessage());
+        adapter.notifyDataSetChanged();
+        mRecycler.smoothScrollToPosition(0);
     }
 
     @Override
@@ -184,6 +181,25 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onNewComment(Tunes tune) {
-        LogHelper.e(TAG, tune.getTitle());
+        Intent nn = new Intent(getActivity(), AddCommentActivity.class);
+        nn.putExtra("tune_extra", tune.getParseId());
+        getActivity().startActivity(nn);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void doThis(IntentServiceResult intentServiceResult) {
+        if (intentServiceResult.getmResult() == Activity.RESULT_OK) {
+            try {
+                JSONArray tunes = new JSONArray(intentServiceResult.getmTunes());
+                for (int i = 0; i < tunes.length(); i++) {
+                    Tunes t = TuneHelper.addTune(tunes.getJSONObject(i));
+                    Tunes c = r.where(Tunes.class).equalTo("parseId", t.getParseId()).findFirst();
+                    if (c == null)
+                        adapter.add(t);
+                }
+            } catch (JSONException | ParseException e) {
+                LogHelper.e(TAG, e.getMessage());
+            }
+        }
     }
 }

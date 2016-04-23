@@ -18,11 +18,13 @@ import com.apradanas.simplelinkabletext.Link;
 import com.apradanas.simplelinkabletext.LinkableTextView;
 import com.ocpsoft.pretty.time.PrettyTime;
 
+import net.glassstones.bambammusic.Common;
 import net.glassstones.bambammusic.R;
 import net.glassstones.bambammusic.intefaces.OnCommentInteraction;
 import net.glassstones.bambammusic.models.Comment;
 import net.glassstones.bambammusic.models.Tunes;
 import net.glassstones.bambammusic.ui.adapters.viewholders.MusicViewHolder;
+import net.glassstones.library.utils.LogHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,7 @@ import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 public class TuneAdapter extends Adapter<ViewHolder> {
 
@@ -224,6 +227,18 @@ public class TuneAdapter extends Adapter<ViewHolder> {
     public void updateAll(List<Tunes> tunes) {
         mTunes = tunes;
         notifyDataSetChanged();
+    }
+
+    public void add(Tunes tune) {
+        if (!mTunes.contains(tune)) {
+            Realm r = Common.getRealm();
+            r.beginTransaction();
+            r.copyToRealmOrUpdate(tune);
+            r.commitTransaction();
+            mTunes.add(0, tune);
+            notifyItemInserted(0);
+            LogHelper.e(TuneAdapter.class.getSimpleName(), "Tune inserted");
+        }
     }
 
     protected class VoiceViewHolder extends ViewHolder {

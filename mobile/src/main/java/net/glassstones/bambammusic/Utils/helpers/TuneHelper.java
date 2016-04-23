@@ -1,13 +1,10 @@
 package net.glassstones.bambammusic.utils.helpers;
 
-import android.util.Log;
-
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import net.glassstones.bambammusic.Common;
 import net.glassstones.bambammusic.models.Tunes;
 
 import org.json.JSONArray;
@@ -16,11 +13,8 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import io.realm.Realm;
 
 public class TuneHelper {
 
@@ -93,11 +87,9 @@ public class TuneHelper {
         return tunes;
     }
 
-    private static Tunes addTune(JSONObject tune) throws JSONException, java.text.ParseException {
-        Realm r = Common.getRealm();
+    public static Tunes addTune(JSONObject tune) throws JSONException, java.text.ParseException {
 
         Tunes t = new Tunes();
-        r.beginTransaction();
         t.setTitle(tune.getString(Tunes.TRACK_TITLE));
         t.setParseId(tune.getString(Tunes.TRACK_ID));
         t.setDesc(tune.getString(Tunes.TRACK_DESC));
@@ -105,15 +97,14 @@ public class TuneHelper {
             t.setTrackUrl(tune.getJSONObject("track").getString(Tunes.TRACK_URL));
         if (tune.has("art"))
             t.setArtUrl(tune.getJSONObject("art").getString(Tunes.ART_URL));
-        t.setArtistName(tune.getJSONObject("owner").getString("f_username"));
+        if (tune.has("f_username"))
+            t.setArtistName(tune.getJSONObject("owner").getString("f_username"));
         t.setArtistObjId(tune.getJSONObject("owner").getString("objectId"));
         t.setForSale(tune.getBoolean("forSale"));
         t.setIsLiked(false);
         t.setMediaType(tune.getInt("media_type"));
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
         t.setCreatedAt(format.parse(tune.getString("createdAt")));
-        r.commitTransaction();
-
         return t;
     }
 

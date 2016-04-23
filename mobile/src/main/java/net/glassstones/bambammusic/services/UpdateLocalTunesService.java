@@ -1,15 +1,24 @@
 package net.glassstones.bambammusic.services;
 
-import com.google.android.gms.gcm.GcmTaskService;
-import com.google.android.gms.gcm.TaskParams;
+import net.glassstones.bambammusic.Common;
+import net.glassstones.bambammusic.tasks.SyncTunesTask;
+
+import me.tatarka.support.job.JobParameters;
+import me.tatarka.support.job.JobService;
 
 /**
  * Created by Thompson on 18/04/2016.
  * For BambamMusic
  */
-public class UpdateLocalTunesService extends GcmTaskService {
+public class UpdateLocalTunesService extends JobService {
     @Override
-    public int onRunTask(TaskParams taskParams) {
-        return 0;
+    public boolean onStartJob(JobParameters params) {
+        new SyncTunesTask(getApplicationContext(), Common.getsInstance().getRequestQueue(), this).execute(params);
+        return true;
+    }
+
+    @Override
+    public boolean onStopJob(JobParameters params) {
+        return false;
     }
 }

@@ -1,4 +1,5 @@
 <resources>
+    <string name="google_app_id">201720719854</string>
     <string name="app_name">Bambam</string>
     <string name="action_settings">Settings</string>
     <string name="music_art_desc">Art</string>
@@ -86,5 +87,6 @@
 
     <string name="pref_title_private_account">Make account private</string>
     <string name="pref_description_private_account">This will prevent anyone who isn\'t following you from viewing your tunes.</string>
+    <string name="title_activity_add_comment">AddCommentActivity</string>
 
 </resources>

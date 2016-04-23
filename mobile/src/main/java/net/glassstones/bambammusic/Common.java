@@ -63,7 +63,13 @@ public class Common extends Application {
         PaystackSdk.setPublishableKey(Constants.PUBLISHABLE_KEY);
         Fresco.initialize(getApplicationContext());
 
-        Parse.initialize(this, Constants.PARSE_APP_KEY, Constants.PARSE_CLIENT_KEY);
+//        Parse.initialize(this, Constants.PARSE_APP_KEY, Constants.PARSE_CLIENT_KEY);
+
+        Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
+                .applicationId(Constants.PARSE_APP_KEY)
+                .clientKey(Constants.PARSE_CLIENT_KEY)
+                .server(Constants.SERVER_URL)   // '/' important after 'parse'
+                .build());
 
         ParseFacebookUtils.initialize(this);
 

@@ -9,6 +9,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.RequestFuture;
 
 import net.glassstones.bambammusic.Common;
 import net.glassstones.bambammusic.Constants;
@@ -70,13 +71,13 @@ public class MusicHelper {
         return md;
     }
 
-    public static JsonObjectRequest getTuneline(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+    public static JsonObjectRequest getTuneline(RequestFuture<JSONObject> future) {
         return new JsonObjectRequest(
                 Request.Method.POST,
                 Constants.KEY_TUNELINE_URL,
                 Common.getUser(),
-                responseListener,
-                errorListener
+                future,
+                future
         ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {

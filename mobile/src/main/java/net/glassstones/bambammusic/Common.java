@@ -1,19 +1,12 @@
 package net.glassstones.bambammusic;
 
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.Response.Listener;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.Volley;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseInstallation;
@@ -24,11 +17,10 @@ import net.glassstones.library.utils.LogHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Map;
-
-import co.paystack.android.PaystackSdk;
+import io.realm.DynamicRealm;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmMigration;
 
 
 public class Common extends Application {
@@ -37,6 +29,37 @@ public class Common extends Application {
     public static Common mInstance;
     private static Realm realm;
     private static JSONObject user;
+    RealmMigration migration = new RealmMigration() {
+        @Override
+        public void migrate(DynamicRealm dynamicRealm, long oldVersion, long l1) {
+//            // DynamicRealm exposes an editable schema
+//            RealmSchema schema = dynamicRealm.getSchema();
+//            if (oldVersion == 0) {
+////                schema.create("Person")
+////                        .addField("name", String.class)
+////                        .addField("age", int.class);
+//                oldVersion++;
+//            }
+//            // Migrate to version 2: Add a primary key + object references
+//            if (oldVersion == 1) {
+//                RealmObjectSchema commentSchema = schema.get("Comment");
+//                commentSchema.addField("status", int.class);
+//                oldVersion++;
+//            }
+//            if (oldVersion == 2) {
+//                RealmObjectSchema commentSchema = schema.get("Comment");
+//                commentSchema
+//                        .addField("c_index", long.class, FieldAttribute.PRIMARY_KEY)
+//                        .transform(new RealmObjectSchema.Function() {
+//                            @Override
+//                            public void apply(DynamicRealmObject obj) {
+//                                obj.set("c_index", new Date().getTime());
+//                            }
+//                        });
+//                oldVersion++;
+//            }
+        }
+    };
     private RequestQueue mRequestQueue;
 
     public synchronized static Common getsInstance() {
@@ -59,15 +82,15 @@ public class Common extends Application {
         LogHelper.d(TAG, "Application created");
 
         mInstance = this;
-        PaystackSdk.initialize(getApplicationContext());
-        PaystackSdk.setPublishableKey(Constants.PUBLISHABLE_KEY);
+//        PaystackSdk.initialize(getApplicationContext());
+//        PaystackSdk.setPublishableKey(Constants.PUBLISHABLE_KEY);
         Fresco.initialize(getApplicationContext());
 
 //        Parse.initialize(this, Constants.PARSE_APP_KEY, Constants.PARSE_CLIENT_KEY);
 
         Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
                 .applicationId(Constants.PARSE_APP_KEY)
-                .clientKey(Constants.PARSE_CLIENT_KEY)
+                .clientKey(null)
                 .server(Constants.SERVER_URL)   // '/' important after 'parse'
                 .build());
 
@@ -75,8 +98,14 @@ public class Common extends Application {
 
         ParseInstallation.getCurrentInstallation().saveInBackground();
 
-        realm = Realm.getInstance(this);
+        RealmConfiguration config = new RealmConfiguration.Builder(this)
+                .schemaVersion(2) // Must be bumped when the schema changes
+                .migration(migration) // Migration to run instead of throwing an exception
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
 
+        realm = Realm.getDefaultInstance();
 
         mRequestQueue = Volley.newRequestQueue(this);
 
@@ -104,52 +133,14 @@ public class Common extends Application {
         return mRequestQueue;
     }
 
-    public class GsonRequest<T> extends Request<T> {
-        private final Gson gson = new Gson();
-        private final Class<T> clazz;
-        private final Map<String, String> headers;
-        private final Listener<T> listener;
-
-        /**
-         * Make a GET request and return a parsed object from JSON.
-         *
-         * @param url     URL of the request to make
-         * @param clazz   Relevant class object, for Gson's reflection
-         * @param headers Map of request headers
-         */
-        public GsonRequest(String url, Class<T> clazz, Map<String, String> headers,
-                           Listener<T> listener, Response.ErrorListener errorListener) {
-            super(Method.GET, url, errorListener);
-            this.clazz = clazz;
-            this.headers = headers;
-            this.listener = listener;
-        }
-
-        @Override
-        public Map<String, String> getHeaders() throws AuthFailureError {
-            return headers != null ? headers : super.getHeaders();
-        }
-
-        @Override
-        protected void deliverResponse(T response) {
-            listener.onResponse(response);
-        }
-
-        @Override
-        protected Response<T> parseNetworkResponse(NetworkResponse response) {
-            try {
-                String json = new String(
-                        response.data,
-                        HttpHeaderParser.parseCharset(response.headers));
-                return Response.success(
-                        gson.fromJson(json, clazz),
-                        HttpHeaderParser.parseCacheHeaders(response));
-            } catch (UnsupportedEncodingException e) {
-                return Response.error(new ParseError(e));
-            } catch (JsonSyntaxException e) {
-                return Response.error(new ParseError(e));
+    public boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
             }
         }
+        return false;
     }
 
 }

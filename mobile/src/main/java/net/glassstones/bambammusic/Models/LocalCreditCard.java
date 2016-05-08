@@ -2,7 +2,6 @@ package net.glassstones.bambammusic.models;
 
 import com.devmarvel.creditcardentry.library.CreditCard;
 
-import co.paystack.android.utils.CardUtils;
 import io.realm.RealmObject;
 
 /**
@@ -19,12 +18,12 @@ public class LocalCreditCard extends RealmObject {
     public LocalCreditCard() {
     }
 
-    public LocalCreditCard(CreditCard creditCard, boolean isDefault){
+    public LocalCreditCard(CreditCard creditCard, boolean isDefault) {
         this.cardNumber = creditCard.getCardNumber();
         this.expiryMonth = creditCard.getExpMonth();
         this.expiryYear = creditCard.getExpYear();
         this.cvc = creditCard.getSecurityCode();
-        this.isExpired = CardUtils.isExpired(creditCard.getExpYear(), creditCard.getExpMonth());
+//        this.isExpired = CardUtils.isExpired(creditCard.getExpYear(), creditCard.getExpMonth());
     }
 
     public String getCardNumber() {

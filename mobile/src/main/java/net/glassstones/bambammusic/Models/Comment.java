@@ -3,19 +3,29 @@ package net.glassstones.bambammusic.models;
 import java.util.Date;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 @SuppressWarnings("unused")
 public class Comment extends RealmObject {
-    private String mComment, mUsername, mAvatar;
+    @PrimaryKey
+    private long c_index;
+
+    private String mComment, mUsername, mAvatar, tuneId;
+
     private Date mCreatedAt;
 
+    private int status, type;
+
     public Comment() {
+        this.c_index = new Date().getTime();
     }
 
-    public Comment(String mComment, String mUsername, String mAvatar, Date mCreatedAt) {
+    public Comment(String mComment, String mUsername, String mAvatar, Date mCreatedAt, int status) {
         this.mComment = mComment;
         this.mUsername = mUsername;
         this.mAvatar = mAvatar;
         this.mCreatedAt = mCreatedAt;
+        this.status = status;
     }
 
 
@@ -49,5 +59,37 @@ public class Comment extends RealmObject {
 
     public void setmAvatar(String mAvatar) {
         this.mAvatar = mAvatar;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public long getC_index() {
+        return c_index;
+    }
+
+    public void setC_index(long c_index) {
+        this.c_index = c_index;
+    }
+
+    public String getTuneId() {
+        return tuneId;
+    }
+
+    public void setTuneId(String tuneId) {
+        this.tuneId = tuneId;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

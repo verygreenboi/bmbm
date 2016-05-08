@@ -4,4 +4,10 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
+    <style name="sty_comment_edit_txt">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:colorControlNormal">#b2ffffff</item>
+        <item name="android:colorControlActivated">#b2ffffff</item>
+        <item name="android:colorControlHighlight">#b2ffffff</item>
+    </style>
 </resources>

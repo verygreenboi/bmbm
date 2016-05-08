@@ -26,4 +26,13 @@ public class AppPreferences {
         _prefsEditor.putString(key, text);
         _prefsEditor.commit();
     }
+
+    public boolean getTunelineIsFresh(String key){
+        return  _sharedPrefs.getBoolean(key, true);
+    }
+
+    public void setTunelineIsFresh(String key, boolean value){
+        _prefsEditor.putBoolean(key, value);
+        _prefsEditor.commit();
+    }
 }

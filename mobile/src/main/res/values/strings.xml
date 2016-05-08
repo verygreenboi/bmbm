@@ -88,5 +88,6 @@
     <string name="pref_title_private_account">Make account private</string>
     <string name="pref_description_private_account">This will prevent anyone who isn\'t following you from viewing your tunes.</string>
     <string name="title_activity_add_comment">AddCommentActivity</string>
+    <string name="no_comments_txt">No comments.\nBe nice. Leave a comment.</string>
 
 </resources>

@@ -73,7 +73,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.glassstones.bambammusic.ui.activities.HomeActivity" />
         </activity>
-
         <activity
             android:name=".ui.activities.AddCommentActivity"
             android:label="@string/title_activity_add_comment"
@@ -83,6 +82,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.glassstones.bambammusic.ui.activities.HomeActivity" />
         </activity>
+
         <service
             android:name=".services.UploadTuneService"
             android:enabled="true"
@@ -91,7 +91,10 @@
             android:name=".services.UpdateLocalTunesService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
+        <service
+            android:name=".services.CreateCommentService"
+            android:enabled="true"
+            android:exported="false"></service>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package net.glassstones.bambammusic.intefaces;
 
+import net.glassstones.bambammusic.models.Comment;
 import net.glassstones.bambammusic.models.Tunes;
 
 /**
@@ -14,4 +15,6 @@ public interface OnCommentInteraction {
     void onCalloutClick(String callout);
 
     void onNewComment(Tunes tune);
+
+    void onCreateComment(Comment comment, Tunes tunes);
 }

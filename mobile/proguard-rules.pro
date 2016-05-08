@@ -103,6 +103,8 @@
 ## For more details, see
 ##   http://developer.android.com/guide/developing/tools/proguard.html
 #
+-dontwarn org.codehaus.jackson.**
+-keep        class org.codehaus.jackson.** { *; }
 ## Add any project specific keep options here:
 #
 ## If your project uses WebView with JS, uncomment the following
@@ -155,6 +157,9 @@
 ##--------------------
 ## some classes are used for method's descriptor
 ##--------------------
+# Parse
+-keep class com.parse.* { *; }
+-dontwarn com.parse.**
 -keep class bolts.** { *; }
 #
 # Butterknife
@@ -179,38 +184,6 @@
 -dontwarn javax.**
 -dontwarn io.realm.**
 
-# Retrofit
-#-dontwarn retrofit2.**
-#-keep class retrofit2.** { *; }
-#-keepattributes Signature
-#-keepattributes Exceptions
-#-keepclasseswithmembers class * {
-#    @retrofit.http.* <methods>;
-#}
--keep class com.google.gson.** { *; }
-
-# Keep our interfaces so they can be used by other ProGuard rules.
-# See http://sourceforge.net/p/proguard/bugs/466/
--keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
-
-# Do not strip any method/class that is annotated with @DoNotStrip
--keep @com.facebook.common.internal.DoNotStrip class *
--keepclassmembers class * {
-    @com.facebook.common.internal.DoNotStrip *;
-}
-
-# Keep native methods
--keepclassmembers class * {
-    native <methods>;
-}
-
--dontwarn okio.**
--dontwarn javax.annotation.**
--dontwarn com.android.volley.toolbox.**
--dontwarn com.squareup.okhttp.internal.huc.**
--dontwarn retrofit.appengine.UrlFetchClient
--dontwarn rx.**
-
 # Eventbus
 -keepattributes *Annotation*
 -keepclassmembers class ** {
@@ -218,22 +191,9 @@
 }
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
 
-# Only required if you use AsyncExecutor
--keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
-    <init>(java.lang.Throwable);
-}
-
-# Parse
--keep class com.parse.** { *; }
 
 -keep class org.ocpsoft.prettytime.i18n.**
 
--dontnote android.net.http.*
--dontnote org.apache.commons.codec.**
--dontnote org.apache.http.**
+-keep class co.paystack.android.api.utils.** { *; }
+-keepclassmembers class co.paystack.android.api.utils.** { *; }
 
--dontwarn org.apache.commons.collections.BeanMap
--dontwarn java.beans.**
-
--dontobfuscate
--printconfiguration config.txt

@@ -30,9 +30,11 @@ public class Tunes extends RealmObject {
 
     private Like mLike;
 
-    private boolean forSale, isLiked;
+    private boolean forSale, isLiked, isPinned;
 
     private int likesCount, commentsCount, playCount, downloadCount, points, mediaType;
+
+    private byte[] artByte, tuneByte;
 
     public Tunes() {
     }
@@ -241,5 +243,29 @@ public class Tunes extends RealmObject {
 
     public void setMediaType(int mediaType) {
         this.mediaType = mediaType;
+    }
+
+    public boolean isPinned() {
+        return isPinned;
+    }
+
+    public void setPinned(boolean pinned) {
+        isPinned = pinned;
+    }
+
+    public byte[] getArtByte() {
+        return artByte;
+    }
+
+    public void setArtByte(byte[] artByte) {
+        this.artByte = artByte;
+    }
+
+    public byte[] getTuneByte() {
+        return tuneByte;
+    }
+
+    public void setTuneByte(byte[] tuneByte) {
+        this.tuneByte = tuneByte;
     }
 }

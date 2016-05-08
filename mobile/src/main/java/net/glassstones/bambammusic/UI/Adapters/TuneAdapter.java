@@ -24,7 +24,6 @@ import net.glassstones.bambammusic.intefaces.OnCommentInteraction;
 import net.glassstones.bambammusic.models.Comment;
 import net.glassstones.bambammusic.models.Tunes;
 import net.glassstones.bambammusic.ui.adapters.viewholders.MusicViewHolder;
-import net.glassstones.library.utils.LogHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +41,9 @@ public class TuneAdapter extends Adapter<ViewHolder> {
     List<Tunes> mTunes;
     Context mContext;
     boolean isCurrentUser = true;
+
+
+    Realm r = Common.getRealm();
 
     OnCommentInteraction mListener;
     private View.OnClickListener commentOnClickListener = new View.OnClickListener() {
@@ -224,21 +226,29 @@ public class TuneAdapter extends Adapter<ViewHolder> {
         }
     }
 
-    public void updateAll(List<Tunes> tunes) {
-        mTunes = tunes;
-        notifyDataSetChanged();
+    public void updateAll(List<Tunes> tunes, boolean streamToTop) {
+        for (Tunes t : tunes) {
+            add(t, streamToTop);
+        }
     }
 
-    public void add(Tunes tune) {
-        if (!mTunes.contains(tune)) {
-            Realm r = Common.getRealm();
-            r.beginTransaction();
-            r.copyToRealmOrUpdate(tune);
-            r.commitTransaction();
-            mTunes.add(0, tune);
-            notifyItemInserted(0);
-            LogHelper.e(TuneAdapter.class.getSimpleName(), "Tune inserted");
+    public void add(Tunes tune, boolean toTop) {
+        if (!isTuneLocal(tune)) {
+            addToRealm(tune);
+            mTunes.add(toTop ? 0 : mTunes.size(), tune);
+            notifyItemInserted(toTop ? 0 : mTunes.size());
         }
+    }
+
+    private void addToRealm(Tunes tune) {
+        r.beginTransaction();
+        r.copyToRealmOrUpdate(tune);
+        r.commitTransaction();
+    }
+
+    private boolean isTuneLocal (Tunes t){
+        Tunes tt = r.where(Tunes.class).equalTo("parseId", t.getParseId()).findFirst();
+        return tt != null;
     }
 
     protected class VoiceViewHolder extends ViewHolder {

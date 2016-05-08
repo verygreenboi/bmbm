@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,10 +24,6 @@ import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.android.gms.gcm.GcmNetworkManager;
-import com.google.android.gms.gcm.GcmTaskService;
-import com.google.android.gms.gcm.PeriodicTask;
-import com.google.android.gms.gcm.Task;
 import com.konifar.fab_transformation.FabTransformation;
 import com.parse.ParseUser;
 
@@ -49,31 +44,39 @@ public class HomeActivity extends BaseActivity {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private static final int JOB_ID = 100;
-
-    private JobScheduler jobScheduler;
-
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawer;
     @Bind(R.id.nvView)
     NavigationView nvDrawer;
-    @Bind(R.id.rv_voice_overlay) RelativeLayout mVoiceOverlay;
-
-    @Bind({R.id.menu_item_3, R.id.menu_item_4}) List<com.github.clans.fab.FloatingActionButton> mVoiceMenus;
-    @Bind({R.id.tv_choose_label, R.id.tv_record_label}) List<TextView> mFabLabels;
-
+    @Bind(R.id.rv_voice_overlay)
+    RelativeLayout mVoiceOverlay;
+    @Bind({R.id.menu_item_3, R.id.menu_item_4})
+    List<com.github.clans.fab.FloatingActionButton> mVoiceMenus;
+    @Bind({R.id.tv_choose_label, R.id.tv_record_label})
+    List<TextView> mFabLabels;
     @Nullable
     @Bind(R.id.fab)
     com.github.clans.fab.FloatingActionMenu mFab;
+    @Bind(R.id.container)
+    FrameLayout mContainer;
+    private JobScheduler jobScheduler;
+    private ActionBarDrawerToggle drawerToggle;
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
+        }
+    };
 
-    @OnClick({R.id.menu_item, R.id.menu_item_2, R.id.menu_item_3, R.id.menu_item_4, R.id.rv_voice_overlay}) void onFabClick(View v){
+    @OnClick({R.id.menu_item, R.id.menu_item_2, R.id.menu_item_3, R.id.menu_item_4, R.id.rv_voice_overlay})
+    void onFabClick(View v) {
 
         assert mFab != null;
         mFab.close(true);
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.menu_item:
                 startActivity(new Intent(this, UploadTuneActivity.class));
                 break;
@@ -85,7 +88,7 @@ public class HomeActivity extends BaseActivity {
                 transformFrom();
                 break;
             case R.id.rv_voice_overlay:
-                if (v.getVisibility() == View.VISIBLE){
+                if (v.getVisibility() == View.VISIBLE) {
                     transformFrom();
                 }
                 break;
@@ -143,21 +146,11 @@ public class HomeActivity extends BaseActivity {
         animatorSet3.start();
     }
 
-    @Bind(R.id.container)
-    FrameLayout mContainer;
-    private ActionBarDrawerToggle drawerToggle;
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
-
-    private void constructJob(){
+    private void constructJob() {
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, UpdateLocalTunesService.class));
-        builder.setPeriodic(60000)
-        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-        .setPersisted(true);
+        builder.setPeriodic(300000)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true);
         jobScheduler.schedule(builder.build());
     }
 
@@ -171,7 +164,7 @@ public class HomeActivity extends BaseActivity {
             assert getSupportActionBar() != null;
             getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-            for (TextView v : mFabLabels){
+            for (TextView v : mFabLabels) {
                 v.setAlpha(0f);
             }
 
@@ -236,7 +229,7 @@ public class HomeActivity extends BaseActivity {
 
     private void selectDrawerItem(MenuItem menuItem) {
         LogHelper.e(TAG, menuItem.getTitle());
-        switch (menuItem.getItemId()){
+        switch (menuItem.getItemId()) {
             case R.id.nav_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
         }

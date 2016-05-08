@@ -54,7 +54,7 @@ public class SyncTunesTask extends AsyncTask<JobParameters, Void, JobParameters>
 
     @Override
     protected JobParameters doInBackground(JobParameters... params) {
-        Realm r = Realm.getInstance(mContext);
+        Realm r = Realm.getDefaultInstance();
         JSONObject response;
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest j = MusicHelper.getTuneline(future);

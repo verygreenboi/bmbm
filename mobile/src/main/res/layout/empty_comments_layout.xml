@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/ic_chat_grey"
+        android:layout_above="@+id/no_comment_text"
+        android:layout_alignLeft="@+id/no_comment_text"
+        android:layout_alignStart="@+id/no_comment_text" />
+
+    <net.glassstones.library.ui.widget.CustomFontTextView
+        android:id="@+id/no_comment_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_centerInParent="true"
+        app:iFont="@string/avenir_next_lT_pro"
+        android:text="@string/no_comments_txt"
+        tools:targetApi="jelly_bean_mr1" />
 
 </RelativeLayout>

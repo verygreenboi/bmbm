@@ -53,4 +53,11 @@
 
     <style name="AppTheme.PreferenceThemeNoActionbar"></style>
 
+    <style name="sty_comment_edit_txt">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="colorControlNormal">#b2ffffff</item>
+        <item name="colorControlActivated">#b2ffffff</item>
+        <item name="colorControlHighlight">#b2ffffff</item>
+    </style>
+
 </resources>

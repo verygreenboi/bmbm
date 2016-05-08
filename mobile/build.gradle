@@ -10,10 +10,8 @@ android {
         applicationId "net.glassstones.bambammusic"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 3
-        versionName "1.0.3"
-        multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode 4
+        versionName "1.0.4"
     }
 
     signingConfigs {
@@ -42,10 +40,6 @@ android {
             setApplicationIdSuffix(".debug")
         }
     }
-
-    dexOptions {
-        preDexLibraries = false
-    }
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
@@ -54,8 +48,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    debugWearApp project(path: ':wear', configuration: 'debug')
-    releaseWearApp project(path: ':wear', configuration: 'release')
+//    debugWearApp project(path: ':wear', configuration: 'debug')
+//    releaseWearApp project(path: ':wear', configuration: 'release')
     testCompile 'junit:junit:4.12'
     testCompile "org.robolectric:robolectric:3.0"
 
@@ -66,6 +60,8 @@ dependencies {
     compile('com.facebook.fresco:fresco:0.9.0') {
         exclude group: 'com.parse.bolts', module: 'bolts-android'
     }
+
+    compile 'com.parse:parsefacebookutils-v4-android:1.10.4@aar'
 
     androidTestCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
@@ -85,14 +81,15 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.mcxiaoke.volley:library:1.0.18'
     compile 'com.github.amlcurran.showcaseview:library:5.0.0'
-    compile 'com.github.Glassstone-Solutions:Android-Essentials:v1.1.2'
+    compile 'com.github.Glassstone-Solutions:Android-Essentials:1.1.2'
     compile 'com.ocpsoft:ocpsoft-pretty-time:1.0.7'
-    compile 'co.paystack.android:paystack:1.2.0'
+//    compile 'co.paystack.android:paystack:1.2.0'
     compile 'com.github.dbachelder:CreditCardEntry:1.4.7'
     compile 'com.apradanas.simplelinkabletext:library:1.0.3@aar'
     compile 'commons-io:commons-io:2.4'
     compile 'me.tatarka.support:jobscheduler:0.1.1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.parse.bolts:bolts-android:1.4.0'
+    compile 'com.parse:parse-android:1.13.0'
 }
 
 play {

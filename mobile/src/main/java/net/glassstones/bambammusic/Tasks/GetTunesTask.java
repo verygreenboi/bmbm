@@ -9,28 +9,38 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import net.glassstones.bambammusic.models.Tunes;
+import net.glassstones.library.utils.LogHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import io.realm.Realm;
-
 public class GetTunesTask extends AsyncTask<ParseUser, Void, List<Tunes>> {
-
-    Realm realm;
+    private static final String TAG = GetTunesTask.class.getSimpleName();
     Context context;
+    private OnTunesFetched mListener;
+    private boolean streamToTop;
 
-    public GetTunesTask(Context context) {
+    public GetTunesTask(Context context, boolean isStreamToTop) {
+        this.streamToTop = isStreamToTop;
         this.context = context;
+    }
+
+    public void setListener(OnTunesFetched l) {
+        this.mListener = l;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        mListener.tunesFetchStarted();
+        LogHelper.e(TAG, "Fetch started");
     }
 
     @Override
     protected List<Tunes> doInBackground(ParseUser... params) {
         ParseUser mUser = params[0];
         List<Tunes> tunesList = new ArrayList<>();
-
-        realm = Realm.getInstance(context);
 
         long DAY_IN_MS = 1000 * 60 * 60 * 24;
         Date sda = new Date(System.currentTimeMillis() - (7 * DAY_IN_MS));
@@ -66,8 +76,8 @@ public class GetTunesTask extends AsyncTask<ParseUser, Void, List<Tunes>> {
             e.printStackTrace();
         }
 
-        if (exception == null){
-            if (parseTunes.size() > 0 ){
+        if (exception == null) {
+            if (parseTunes.size() > 0) {
                 try {
                     tunesList = save(parseTunes, tunesList);
                 } catch (ParseException e) {
@@ -82,12 +92,12 @@ public class GetTunesTask extends AsyncTask<ParseUser, Void, List<Tunes>> {
     @Override
     protected void onPostExecute(List<Tunes> tunes) {
         super.onPostExecute(tunes);
-        realm.close();
+        mListener.tunesFetched(tunes, streamToTop);
     }
 
     private List<Tunes> save(List<ParseObject> parseTunes, List<Tunes> tunesList) throws ParseException {
 
-        for (ParseObject i : parseTunes){
+        for (ParseObject i : parseTunes) {
             ParseUser getUser = i.getParseUser("owner").fetch();
             boolean isLiked = getTuneLike(i.getObjectId());
             Tunes track = new Tunes();
@@ -102,18 +112,10 @@ public class GetTunesTask extends AsyncTask<ParseUser, Void, List<Tunes>> {
             track.setLiked(isLiked);
             track.setCreatedAt(i.getCreatedAt());
 
-            realm.beginTransaction();
-            realm.copyToRealm(track);
-            realm.commitTransaction();
-
             tunesList.add(track);
         }
 
         return tunesList;
-    }
-
-    private Tunes getTunes(ParseUser getUser, ParseObject i, boolean isLiked) {
-        return new Tunes();
     }
 
     private boolean getTuneLike(String objectId) throws ParseException {
@@ -136,5 +138,11 @@ public class GetTunesTask extends AsyncTask<ParseUser, Void, List<Tunes>> {
         ParseQuery<ParseObject> getTune = new ParseQuery<>("Tunes");
         getTune.whereEqualTo("objectId", t);
         return getTune.getFirst();
+    }
+
+    public interface OnTunesFetched {
+        void tunesFetched(List<Tunes> tunes, boolean streamToTop);
+
+        void tunesFetchStarted();
     }
 }

@@ -8,8 +8,13 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import net.glassstones.bambammusic.Common;
+import net.glassstones.bambammusic.Constants;
+import net.glassstones.bambammusic.models.IntentServiceResult;
 import net.glassstones.bambammusic.models.Tunes;
 import net.glassstones.library.utils.LogHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,6 +89,8 @@ public class GetTunesTask extends AsyncTask<ParseUser, Void, List<Tunes>> {
                     e.printStackTrace();
                 }
             }
+        } else {
+            EventBus.getDefault().post(new IntentServiceResult(Constants.TUNE_GET_FAILURE, exception));
         }
 
         return tunesList;

@@ -64,6 +64,7 @@ public class SyncTunesTask extends AsyncTask<JobParameters, Void, JobParameters>
             jsonTunes = response.getJSONArray(Constants.KEY_TUNELINE_ARRAY_NAME);
             EventBus.getDefault().post(new IntentServiceResult(Activity.RESULT_OK, jsonTunes.toString()));
         } catch (InterruptedException | ExecutionException | TimeoutException | JSONException e) {
+            EventBus.getDefault().post(new IntentServiceResult(Constants.TUNE_GET_FAILURE, e));
             e.printStackTrace();
         }
         return params[0];

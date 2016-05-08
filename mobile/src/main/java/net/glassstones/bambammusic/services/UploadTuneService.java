@@ -1,5 +1,6 @@
 package net.glassstones.bambammusic.services;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -21,8 +23,12 @@ import com.parse.ProgressCallback;
 import com.parse.SaveCallback;
 
 import net.glassstones.bambammusic.R;
+import net.glassstones.bambammusic.models.IntentServiceResult;
 import net.glassstones.bambammusic.models.MediaData;
+import net.glassstones.bambammusic.models.Tunes;
 import net.glassstones.bambammusic.utils.helpers.FileHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -108,6 +114,53 @@ public class UploadTuneService extends Service {
         });
     }
 
+    private void SaveArt(byte[] mArtFileBytes) {
+        String artName = "art.jpg";
+
+        Log.e("EXT", artName);
+        final ParseFile aParseFile = new ParseFile(artName, mArtFileBytes);
+
+        aParseFile.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                mTrack.put("art", aParseFile);
+                mTrack.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            mTrack.getParseUser("owner").fetchInBackground(new GetCallback<ParseUser>() {
+                                @Override
+                                public void done(ParseUser user, ParseException e) {
+                                    if (e == null){
+                                        Tunes t = new Tunes();
+                                        t.setTitle(mTrack.getString("title"));
+                                        t.setParseId(mTrack.getObjectId());
+                                        t.setDesc(mTrack.getString("desc"));
+                                        t.setTrackUrl(mTrack.getParseFile("track").getUrl());
+                                        t.setArtUrl(mTrack.getParseFile("art").getUrl());
+                                        t.setArtistName(user.getString("f_username"));
+                                        t.setArtistObjId(user.getObjectId());
+                                        t.setForSale(mTrack.getBoolean("forSale"));
+                                        // TODO: fix liked logic
+                                        t.setLiked(false);
+                                        t.setCreatedAt(mTrack.getCreatedAt());
+                                        EventBus.getDefault().post(new IntentServiceResult(Activity.RESULT_OK, t));
+                                        stopSelf();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }, new ProgressCallback() {
+            @Override
+            public void done(Integer integer) {
+
+            }
+        });
+    }
+
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -123,33 +176,6 @@ public class UploadTuneService extends Service {
         String path = cursor.getString(idx);
         cursor.close();
         return path;
-    }
-
-    private void SaveArt(byte[] mArtFileBytes) {
-        String artName = "art.jpg";
-
-        Log.e("EXT", artName);
-        final ParseFile aParseFile = new ParseFile(artName, mArtFileBytes);
-
-        aParseFile.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                mTrack.put("art", aParseFile);
-                mTrack.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            stopSelf();
-                        }
-                    }
-                });
-            }
-        }, new ProgressCallback() {
-            @Override
-            public void done(Integer integer) {
-
-            }
-        });
     }
 
     @Override

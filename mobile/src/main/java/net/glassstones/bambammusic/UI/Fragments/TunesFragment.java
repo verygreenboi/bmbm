@@ -3,6 +3,7 @@ package net.glassstones.bambammusic.ui.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,16 +16,20 @@ import android.view.ViewGroup;
 import com.parse.ParseUser;
 
 import net.glassstones.bambammusic.Common;
+import net.glassstones.bambammusic.Constants;
 import net.glassstones.bambammusic.R;
 import net.glassstones.bambammusic.intefaces.OnCommentInteraction;
 import net.glassstones.bambammusic.models.Comment;
 import net.glassstones.bambammusic.models.IntentServiceResult;
+import net.glassstones.bambammusic.models.TuneFetchModel;
 import net.glassstones.bambammusic.models.Tunes;
 import net.glassstones.bambammusic.tasks.GetTunesTask;
 import net.glassstones.bambammusic.tasks.GetTunesTask.OnTunesFetched;
 import net.glassstones.bambammusic.ui.activities.AddCommentActivity;
 import net.glassstones.bambammusic.ui.adapters.TuneAdapter;
+import net.glassstones.bambammusic.utils.helpers.AppPreferences;
 import net.glassstones.bambammusic.utils.helpers.TuneHelper;
+import net.glassstones.library.utils.LogHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -59,6 +64,7 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     private Realm r;
     private TuneAdapter adapter;
     private List<Tunes> tunesList = new ArrayList<>();
+    private AppPreferences ap;
 
     public TunesFragment() {
         // Required empty public constructor
@@ -87,6 +93,8 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         boolean isCurrentUser = mCurrentUser;
         r = Common.getRealm();
         r.addChangeListener(this);
+
+        ap = new AppPreferences(getActivity());
 
         RealmResults<Tunes> tx = r.where(Tunes.class).findAll();
         tx.sort("createdAt", Sort.DESCENDING);
@@ -189,21 +197,46 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void doThis(IntentServiceResult intentServiceResult) {
-        switch (intentServiceResult.getmResult()){
+        switch (intentServiceResult.getmResult()) {
             case Activity.RESULT_OK:
                 streamToTop(intentServiceResult);
+                break;
+            case Constants.TUNE_GET_FAILURE:
+                Snackbar.make(mRecycler, "Cannot get tunes", Snackbar.LENGTH_SHORT).show();
                 break;
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTunesFetched(TuneFetchModel tfm) {
+        List<Tunes> t = tfm.getTunes();
+        boolean top = tfm.isStreamToTop();
+        if (adapter != null) {
+            LogHelper.e(TAG, t.size() + " tune(s) fetched.");
+            adapter.updateAll(t, top);
+            ap.setTunelineIsFresh(Constants.KEY_TUNELINE_STATUS, t.size() <= 0);
+        }
+    }
+
+    @Override
+    public void tunesFetched(List<Tunes> tunes, boolean streamToTop) {
+        srvRefresh.setRefreshing(false);
+        LogHelper.e(TAG, tunes.size() + " tunes fetched");
+        adapter.updateAll(tunes, streamToTop);
+    }
+
     private void streamToTop(IntentServiceResult intentServiceResult) {
-        try {
-            List<Tunes> t = getTune(intentServiceResult);
-            for (Tunes tt : t) {
-                adapter.add(tt, true);
+        if (intentServiceResult.getTunes() == null) {
+            try {
+                List<Tunes> t = getTune(intentServiceResult);
+                for (Tunes tt : t) {
+                    adapter.add(tt, true);
+                }
+            } catch (JSONException | ParseException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException | ParseException e) {
-            e.printStackTrace();
+        } else {
+            adapter.add(intentServiceResult.getTunes(), true);
         }
     }
 
@@ -217,12 +250,6 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 tx.add(t);
         }
         return tx;
-    }
-
-    @Override
-    public void tunesFetched(List<Tunes> tunes, boolean streamToTop) {
-        srvRefresh.setRefreshing(false);
-        adapter.updateAll(tunes, streamToTop);
     }
 
     @Override

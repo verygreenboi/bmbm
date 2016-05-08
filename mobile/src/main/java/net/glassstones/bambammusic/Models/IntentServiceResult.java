@@ -11,6 +11,7 @@ public class IntentServiceResult {
     String mTunes;
     boolean isSaved;
     Exception exception;
+    Tunes tunes;
 
     public IntentServiceResult(int resultOk, String tunes) {
         mResult = resultOk;
@@ -27,6 +28,11 @@ public class IntentServiceResult {
         this.exception = e;
     }
 
+    public IntentServiceResult(int resultOk, Tunes t) {
+        mResult = resultOk;
+        this.tunes = t;
+    }
+
     public int getmResult() {
         return mResult;
     }
@@ -41,5 +47,13 @@ public class IntentServiceResult {
 
     public Exception getException() {
         return exception;
+    }
+
+    public Tunes getTunes() {
+        return tunes;
+    }
+
+    public void setTunes(Tunes tunes) {
+        this.tunes = tunes;
     }
 }

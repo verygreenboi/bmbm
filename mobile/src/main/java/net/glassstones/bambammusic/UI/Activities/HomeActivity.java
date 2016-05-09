@@ -25,6 +25,8 @@ import android.widget.TextView;
 import com.facebook.AccessToken;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.konifar.fab_transformation.FabTransformation;
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import net.glassstones.bambammusic.R;
@@ -247,6 +249,20 @@ public class HomeActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
+        }
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_signout) {
+            ParseUser.logOutInBackground(new LogOutCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                }
+            });
         }
 
         return super.onOptionsItemSelected(item);

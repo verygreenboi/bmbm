@@ -18,7 +18,9 @@ import com.apradanas.simplelinkabletext.Link;
 import com.apradanas.simplelinkabletext.LinkableTextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.ocpsoft.pretty.time.PrettyTime;
+import com.parse.FunctionCallback;
 import com.parse.GetCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -29,8 +31,10 @@ import net.glassstones.bambammusic.intefaces.OnCommentInteraction;
 import net.glassstones.bambammusic.models.Comment;
 import net.glassstones.bambammusic.models.Tunes;
 import net.glassstones.bambammusic.ui.adapters.viewholders.MusicViewHolder;
+import net.glassstones.library.utils.LogHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -42,10 +46,12 @@ public class TuneAdapter extends Adapter<ViewHolder> {
 
     private static final int TYPE_MUSIC = 0;
     private static final int TYPE_VOICE = 1;
+    private static final String TAG = TuneAdapter.class.getSimpleName();
 
     List<Tunes> mTunes;
     Context mContext;
     boolean isCurrentUser = true;
+    int pos;
 
 
     Realm r = Common.getRealm();
@@ -54,7 +60,7 @@ public class TuneAdapter extends Adapter<ViewHolder> {
     private View.OnClickListener commentOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int pos = (int) v.getTag();
+            pos = (int) v.getTag();
             Tunes t = mTunes.get(pos);
             mListener.onNewComment(t);
         }
@@ -62,9 +68,49 @@ public class TuneAdapter extends Adapter<ViewHolder> {
     private View.OnClickListener likeOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            int pos = (int) v.getTag();
+            Tunes t = mTunes.get(pos);
+            LogHelper.e(TAG, t.getTitle()+" liked");
+            HashMap<String, String> params = new HashMap<>();
+            params.put("tuneId", t.getParseId());
+            if (!t.isLiked()) {
+                doLikeFunction("likeTune", params);
+            } else {
+                doLikeFunction("dislikeTune",params);
+            }
         }
     };
+
+    private void doLikeFunction(final String key, HashMap<String, String> params) {
+        ParseCloud.callFunctionInBackground(key, params, new FunctionCallback<Object>() {
+            @Override
+            public void done(Object object, ParseException e) {
+                Tunes t = mTunes.get(pos);
+                if (e == null){
+                    switch (key){
+                        case "likeTune":
+                            r.beginTransaction();
+                            t.setIsLiked(true);
+                            r.commitTransaction();
+                            break;
+                        case "dislikeTune":
+                            r.beginTransaction();
+                            t.setIsLiked(false);
+                            r.commitTransaction();
+                            break;
+                        default:
+                            r.beginTransaction();
+                            t.setIsLiked(false);
+                            r.commitTransaction();
+                            break;
+                    }
+                    notifyItemChanged(pos);
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
     public TuneAdapter(List<Tunes> tunes, Context context, boolean isCurrentUser) {
         this.mTunes = tunes;
@@ -128,6 +174,11 @@ public class TuneAdapter extends Adapter<ViewHolder> {
                 vh.getLikeMetaImg().setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_heart_outline_white));
             }
             vh.getLikeMetaImg().setTag(position);
+            if (t.isLiked()){
+                vh.getLikeMetaImg().setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_heart));
+            } else {
+                vh.getLikeMetaImg().setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_heart_outline_white));
+            }
             vh.getLikeMetaImg().setOnClickListener(likeOnClickListener);
 
             vh.getCommentMetaImg().setTag(position);

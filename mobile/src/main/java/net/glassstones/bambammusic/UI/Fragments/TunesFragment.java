@@ -2,6 +2,7 @@ package net.glassstones.bambammusic.ui.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -10,11 +11,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.parse.FindCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import net.glassstones.bambammusic.BuildConfig;
 import net.glassstones.bambammusic.Common;
 import net.glassstones.bambammusic.Constants;
 import net.glassstones.bambammusic.R;
@@ -108,6 +116,8 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         adapter = new TuneAdapter(tunesList, getActivity(), isCurrentUser);
 
         adapter.setListener(this);
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -137,10 +147,58 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-        r.removeAllChangeListeners();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.tuneline_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_clear){
+            if (BuildConfig.DEBUG) {
+                RealmResults<Tunes> tunes = r.where(Tunes.class).findAll();
+                r.beginTransaction();
+                tunes.clear();
+                r.commitTransaction();
+                ParseQuery<ParseObject> tuneList = ParseQuery.getQuery("Tunes");
+                tuneList.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, com.parse.ParseException e) {
+                        for (ParseObject o : objects){
+                            o.deleteInBackground();
+                        }
+                    }
+                });
+                ParseQuery<ParseObject> comments = ParseQuery.getQuery("Comment");
+                comments.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, com.parse.ParseException e) {
+                        for (ParseObject o : objects){
+                            o.deleteInBackground();
+                        }
+                    }
+                });
+                ParseQuery<ParseObject> ac = ParseQuery.getQuery("Activities");
+                ac.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, com.parse.ParseException e) {
+                        for (ParseObject o : objects){
+                            o.deleteInBackground();
+                        }
+                    }
+                });
+            }
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -150,9 +208,10 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        EventBus.getDefault().register(this);
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+        r.removeAllChangeListeners();
     }
 
     @Override

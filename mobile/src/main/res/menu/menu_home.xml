@@ -8,4 +8,10 @@
         android:icon="@drawable/ic_search"
         android:title="@string/action_search"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_signout"
+        android:orderInCategory="200"
+        android:title="Sign out"
+        app:showAsAction="never" />
 </menu>

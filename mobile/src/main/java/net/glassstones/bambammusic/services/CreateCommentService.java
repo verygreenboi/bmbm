@@ -27,32 +27,11 @@ public class CreateCommentService extends Service {
     private ParseObject pTune;
     private ParseUser to;
     private CommentBinder mBinder = new CommentBinder();
-
-    private GetCallback<ParseObject> getTuneCallback = new GetCallback<ParseObject>() {
-        @Override
-        public void done(ParseObject tune, ParseException e) {
-            pTune = tune;
-            if (cd != null && to != null && e == null) {
-                LogHelper.e(TAG, "Tune retrieved: "+ tune.getObjectId());
-                uploadComment(tune, cd);
-            } else {
-                EventBus.getDefault().post(new IntentServiceResult(Constants.TUNE_GET_FAILURE, e));
-                stopSelf();
-            }
-        }
-    };
-    private void uploadComment(ParseObject tune, CommentData cd) {
-        pComment = new ParseObject("Comment");
-        pComment.put("comment", cd.getComment());
-        pComment.put("tune", tune);
-        pComment.saveEventually(saveCommentCallback);
-    }
-
     private SaveCallback saveCommentCallback = new SaveCallback() {
         @Override
         public void done(ParseException e) {
             if (e == null && !pComment.isDirty()) {
-                LogHelper.e(TAG, "Comment "+pComment.getObjectId()+" is saved.");
+                LogHelper.e(TAG, "Comment " + pComment.getObjectId() + " is saved.");
                 uploadActivity(pComment, to);
             } else {
                 EventBus.getDefault().post(new IntentServiceResult(Constants.SAVE_COMMENT_FAILURE, e));
@@ -60,6 +39,29 @@ public class CreateCommentService extends Service {
             }
         }
     };
+    private GetCallback<ParseObject> getTuneCallback = new GetCallback<ParseObject>() {
+        @Override
+        public void done(ParseObject tune, ParseException e) {
+            pTune = tune;
+            if (cd != null && to != null && e == null) {
+                LogHelper.e(TAG, "Tune retrieved: " + tune.getObjectId());
+                uploadComment(tune, cd);
+            } else {
+                EventBus.getDefault().post(new IntentServiceResult(Constants.TUNE_GET_FAILURE, e));
+                stopSelf();
+            }
+        }
+    };
+
+    public CreateCommentService() {
+    }
+
+    private void uploadComment(ParseObject tune, CommentData cd) {
+        pComment = new ParseObject("Comment");
+        pComment.put("comment", cd.getComment());
+        pComment.put("tune", tune);
+        pComment.saveEventually(saveCommentCallback);
+    }
 
     private void uploadActivity(ParseObject pComment, ParseUser to) {
         final ParseObject a = new ParseObject("Activities");
@@ -78,9 +80,6 @@ public class CreateCommentService extends Service {
                 stopSelf();
             }
         });
-    }
-
-    public CreateCommentService() {
     }
 
     @Override
@@ -108,7 +107,48 @@ public class CreateCommentService extends Service {
         cd = commentData;
         ParseQuery<ParseObject> getTuneAsync = new ParseQuery<>("Tunes");
         getTuneAsync.whereEqualTo("objectId", cd.getTuneId());
-        getTuneAsync.getFirstInBackground(getTuneCallback);
+//        getTuneAsync.getFirstInBackground(getTuneCallback);
+        getTuneAsync.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject tune, ParseException e) {
+                pTune = tune;
+                createComment(pTune, cd, to);
+            }
+        });
+    }
+
+    private void createComment(ParseObject pTune, CommentData cd, final ParseUser to) {
+        final ParseObject comment = new ParseObject("Comment");
+        comment.put("from", ParseUser.getCurrentUser());
+        comment.put("tune", pTune);
+        comment.put("to", to);
+        comment.put("comment", cd.getComment());
+        comment.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    createActivity(comment, to);
+                }
+            }
+        });
+    }
+
+    private void createActivity(ParseObject comment, ParseUser to) {
+        ParseObject activity = new ParseObject("Activities");
+        activity.put("from", ParseUser.getCurrentUser());
+        activity.put("to", to);
+        activity.put("type", "comment");
+        activity.put("comment", comment);
+        activity.saveEventually(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    EventBus.getDefault().post(new IntentServiceResult(Constants.TUNE_SAVE_STATUS_OK, pTune.getObjectId()));
+                } else {
+                    EventBus.getDefault().post(new IntentServiceResult(Constants.TUNE_ACTIVITY_SAVE_FAILURE, e));
+                }
+            }
+        });
     }
 
     public class CommentBinder extends Binder {

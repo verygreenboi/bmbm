@@ -8,10 +8,26 @@ android {
 
     defaultConfig {
         applicationId "net.glassstones.bambammusic"
-        minSdkVersion 16
-        targetSdkVersion 23
-        versionCode 4
-        versionName "1.0.4"
+        minSdkVersion project.MIN_SDK
+        targetSdkVersion project.TARGET_SDK
+        versionCode evalVersionCode() + Integer.parseInt(project.INITIAL_VERSION_CODE)
+        versionName evalVersionName()
+
+        if (!isIDEBuild()) {
+            println "Command-line build"
+            // We can't rename build during IDE build because AS can't handle situation
+            // if name is changed without Sync project with gradle files.
+            applicationVariants.all { variant ->
+                renameApk(variant)
+            }
+        }
+
+        applicationVariants.all { variant ->
+            variant.buildConfigField "String", "COMMIT_HASH", '"' + getGitHash() + '"'
+            variant.buildConfigField "boolean", "IDE_BUILD", isIDEBuild() ? "true" : "false"
+            variant.buildConfigField "boolean", "SNAPSHOT_BUILD", isSnapshotBuild() ? "true" : "false"
+        }
+
     }
 
     signingConfigs {

@@ -353,6 +353,7 @@ public class AddCommentActivity extends BaseActivity implements View.OnClickList
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getParseUser(ParseUser u) {
         LogHelper.e(TAG, u.getUsername());
+        to = u;
     }
 
     @Override

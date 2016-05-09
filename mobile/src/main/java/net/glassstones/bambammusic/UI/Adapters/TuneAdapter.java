@@ -16,7 +16,12 @@ import android.widget.Toast;
 
 import com.apradanas.simplelinkabletext.Link;
 import com.apradanas.simplelinkabletext.LinkableTextView;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.ocpsoft.pretty.time.PrettyTime;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import net.glassstones.bambammusic.Common;
 import net.glassstones.bambammusic.R;
@@ -116,6 +121,7 @@ public class TuneAdapter extends Adapter<ViewHolder> {
             vh.getCreatedAt().setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
             vh.getTitle().setText(t.getTitle());
             vh.getArtist().setText(t.getArtistName());
+            setArtistAvatar(t, vh.getUserAvatar());
             if (t.isForSale()) {
                 vh.getLikeMetaImg().setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_add_shopping_cart));
             } else {
@@ -136,6 +142,23 @@ public class TuneAdapter extends Adapter<ViewHolder> {
             }
 
         }
+    }
+
+    private void setArtistAvatar(Tunes t, final SimpleDraweeView userAvatar) {
+        ParseQuery<ParseUser> user = ParseUser.getQuery();
+        user.whereEqualTo("objectId", t.getArtistObjId());
+        user.getFirstInBackground(new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    String fb_id = user.getString("fb_id");
+                    String url = "https://graph.facebook.com/" + fb_id + "/picture?type=large";
+                    userAvatar.setImageURI(Uri.parse(url));
+                } else {
+                    userAvatar.setImageURI(null);
+                }
+            }
+        });
     }
 
     private void setComments(MusicViewHolder vh, Tunes t) {

@@ -90,17 +90,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d60113e8-c9c3-423e-97f3-a4e65d2d6b3b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/menu/tuneline_menu.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/release/java/net/glassstones/bambammusic/Constants.java" />
       <change type="MOVED" beforePath="$PROJECT_DIR$/mobile/src/main/java/net/glassstones/bambammusic/Constants.java" afterPath="$PROJECT_DIR$/mobile/src/debug/java/net/glassstones/bambammusic/Constants.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build.gradle" afterPath="$PROJECT_DIR$/mobile/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/mobile.iml" afterPath="$PROJECT_DIR$/mobile/mobile.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/net/glassstones/bambammusic/UI/Activities/HomeActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/net/glassstones/bambammusic/UI/Activities/HomeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/net/glassstones/bambammusic/UI/Adapters/TuneAdapter.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/net/glassstones/bambammusic/UI/Adapters/TuneAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/net/glassstones/bambammusic/UI/Fragments/TunesFragment.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/net/glassstones/bambammusic/UI/Fragments/TunesFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/res/menu/menu_home.xml" afterPath="$PROJECT_DIR$/mobile/src/main/res/menu/menu_home.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/mobile/src/main/res/values/strings.xml" />
     </list>
     <ignored path="BambamMusic.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -3340,7 +3332,13 @@
       <option name="project" value="LOCAL" />
       <updated>1462810295825</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fix like and dislike logic">
+      <created>1462835353335</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1462835353335</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -3450,7 +3448,8 @@
     <MESSAGE value="FIX: Sync tunes&#10;" />
     <MESSAGE value="Add comment and activity uploading&#10;" />
     <MESSAGE value="Implement avatar loading on tuneline" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement avatar loading on tuneline" />
+    <MESSAGE value="Fix like and dislike logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix like and dislike logic" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -13,6 +13,7 @@ import com.android.volley.toolbox.RequestFuture;
 
 import net.glassstones.bambammusic.Common;
 import net.glassstones.bambammusic.Constants;
+import net.glassstones.bambammusic.Credentials;
 import net.glassstones.bambammusic.models.MediaData;
 
 import org.json.JSONObject;
@@ -74,7 +75,7 @@ public class MusicHelper {
     public static JsonObjectRequest getTuneline(RequestFuture<JSONObject> future) {
         return new JsonObjectRequest(
                 Request.Method.POST,
-                Constants.KEY_TUNELINE_URL,
+                Credentials.KEY_TUNELINE_URL,
                 Common.getUser(),
                 future,
                 future
@@ -82,8 +83,8 @@ public class MusicHelper {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("X-Parse-Application-Id", Constants.PARSE_APP_KEY);
-                params.put("X-Parse-REST-API-Key", Constants.PARSE_REST_KEY);
+                params.put("X-Parse-Application-Id", Credentials.PARSE_APP_KEY);
+                params.put("X-Parse-REST-API-Key", Credentials.PARSE_REST_KEY);
                 params.put("Content-Type", "application/json");
                 return params;
             }

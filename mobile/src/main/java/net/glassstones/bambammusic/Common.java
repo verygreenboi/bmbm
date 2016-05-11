@@ -17,6 +17,7 @@ import net.glassstones.library.utils.LogHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import co.paystack.android.PaystackSdk;
 import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -82,16 +83,16 @@ public class Common extends Application {
         LogHelper.d(TAG, "Application created");
 
         mInstance = this;
-//        PaystackSdk.initialize(getApplicationContext());
-//        PaystackSdk.setPublishableKey(Constants.PUBLISHABLE_KEY);
+        PaystackSdk.initialize(getApplicationContext());
+        PaystackSdk.setPublishableKey(Credentials.PUBLISHABLE_KEY);
         Fresco.initialize(getApplicationContext());
 
 //        Parse.initialize(this, Constants.PARSE_APP_KEY, Constants.PARSE_CLIENT_KEY);
 
         Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
-                .applicationId(Constants.PARSE_APP_KEY)
+                .applicationId(Credentials.PARSE_APP_KEY)
                 .clientKey(null)
-                .server(Constants.SERVER_URL)   // '/' important after 'parse'
+                .server(Credentials.SERVER_URL)   // '/' important after 'parse'
                 .build());
 
         ParseFacebookUtils.initialize(this);

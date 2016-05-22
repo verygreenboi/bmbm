@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.github.clans.fab.FloatingActionMenu;
 
 import net.glassstones.bambammusic.R;
+import net.glassstones.bambammusic.ui.widgets.FooterBarLayout;
 import net.glassstones.library.utils.LogHelper;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public class QuickHideBehavior extends CoordinatorLayout.Behavior<View> {
         super(context, attrs);
 
         TypedArray a = context.getTheme()
-                .obtainStyledAttributes(new int[] {R.attr.actionBarSize});
+                .obtainStyledAttributes(new int[]{R.attr.actionBarSize});
         //Use half the standard action bar height
         mScrollThreshold = a.getDimensionPixelSize(0, 0) / 2;
         a.recycle();
@@ -60,36 +61,24 @@ public class QuickHideBehavior extends CoordinatorLayout.Behavior<View> {
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
-        float translationY = getFabTranslationYForSnackbar(parent, child);
+        float translationY = getFabTranslationY(parent, child);
         float percentComplete = -translationY / dependency.getHeight();
         float scaleFactor = 1 - percentComplete;
-
-        child.setScaleX(scaleFactor);
-        child.setScaleY(scaleFactor);
+        if (dependency instanceof Snackbar.SnackbarLayout) {
+            child.setScaleX(scaleFactor);
+            child.setScaleY(scaleFactor);
+        } else if (dependency instanceof FooterBarLayout) {
+            child.setTranslationY(scaleFactor);
+        }
         return false;
     }
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
-        if (child instanceof FloatingActionMenu){
+        if (child instanceof FloatingActionMenu) {
             LogHelper.d(TAG, "YAY!");
         }
         return dependency instanceof Snackbar.SnackbarLayout;
-    }
-
-    private float getFabTranslationYForSnackbar(CoordinatorLayout parent,
-                                                View fab) {
-        float minOffset = 0;
-        final List<View> dependencies = parent.getDependencies(fab);
-        for (int i = 0, z = dependencies.size(); i < z; i++) {
-            final View view = dependencies.get(i);
-            if (view instanceof Snackbar.SnackbarLayout && parent.doViewsOverlap(fab, view)) {
-                minOffset = Math.min(minOffset,
-                        ViewCompat.getTranslationY(view) - view.getHeight());
-            }
-        }
-
-        return minOffset;
     }
 
     //Called before a nested scroll event. Return true to declare interest
@@ -178,12 +167,27 @@ public class QuickHideBehavior extends CoordinatorLayout.Behavior<View> {
         if (target instanceof AppBarLayout) {
             return -target.getHeight();
         } else if (target instanceof FloatingActionButton || target instanceof com.github.clans.fab.FloatingActionMenu) {
-            if (target instanceof com.github.clans.fab.FloatingActionMenu){
+            if (target instanceof com.github.clans.fab.FloatingActionMenu) {
                 ((FloatingActionMenu) target).close(true);
             }
             return parent.getHeight() - target.getTop();
         }
 
         return 0f;
+    }
+
+    private float getFabTranslationY(CoordinatorLayout parent,
+                                     View fab) {
+        float minOffset = 0;
+        final List<View> dependencies = parent.getDependencies(fab);
+        for (int i = 0, z = dependencies.size(); i < z; i++) {
+            final View view = dependencies.get(i);
+            if (view instanceof Snackbar.SnackbarLayout && parent.doViewsOverlap(fab, view)) {
+                minOffset = Math.min(minOffset,
+                        ViewCompat.getTranslationY(view) - view.getHeight());
+            }
+        }
+
+        return minOffset;
     }
 }

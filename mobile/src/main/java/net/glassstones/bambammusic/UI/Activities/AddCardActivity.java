@@ -9,6 +9,7 @@ import android.view.View;
 
 import net.glassstones.bambammusic.R;
 import net.glassstones.bambammusic.intefaces.FragmentIdentityListener;
+import net.glassstones.bambammusic.models.MediaData;
 import net.glassstones.bambammusic.ui.fragments.ListCardsFragment;
 
 import butterknife.Bind;
@@ -104,5 +105,15 @@ public class AddCardActivity extends BaseActivity implements ListCardsFragment.O
                 mFab.animate().rotation(-360).scaleX(0f).scaleY(0f).setDuration(500).start();
             }
         }
+    }
+
+    @Override
+    public void sendMediaData(MediaData mediaData) {
+
+    }
+
+    @Override
+    public void sendCurentPlayPosition(int currentPosition) {
+
     }
 }

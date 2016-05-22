@@ -3,6 +3,7 @@ package net.glassstones.bambammusic;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -12,12 +13,12 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
+import net.glassstones.bambammusic.services.PlayTuneService;
 import net.glassstones.library.utils.LogHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import co.paystack.android.PaystackSdk;
 import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -83,8 +84,8 @@ public class Common extends Application {
         LogHelper.d(TAG, "Application created");
 
         mInstance = this;
-        PaystackSdk.initialize(getApplicationContext());
-        PaystackSdk.setPublishableKey(Credentials.PUBLISHABLE_KEY);
+//        PaystackSdk.initialize(getApplicationContext());
+//        PaystackSdk.setPublishableKey(Credentials.PUBLISHABLE_KEY);
         Fresco.initialize(getApplicationContext());
 
 //        Parse.initialize(this, Constants.PARSE_APP_KEY, Constants.PARSE_CLIENT_KEY);
@@ -128,7 +129,11 @@ public class Common extends Application {
             }
 
         }
+
+        // Start Play service
+        startService(new Intent(getApplicationContext(), PlayTuneService.class));
     }
+
 
     public RequestQueue getRequestQueue() {
         return mRequestQueue;

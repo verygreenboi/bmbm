@@ -32,6 +32,7 @@ import net.glassstones.bambammusic.models.Comment;
 import net.glassstones.bambammusic.models.CommentData;
 import net.glassstones.bambammusic.models.CommentPack;
 import net.glassstones.bambammusic.models.IntentServiceResult;
+import net.glassstones.bambammusic.models.MediaData;
 import net.glassstones.bambammusic.models.Tunes;
 import net.glassstones.bambammusic.services.CreateCommentService;
 import net.glassstones.bambammusic.services.CreateCommentService.CommentBinder;
@@ -65,18 +66,6 @@ public class AddCommentActivity extends BaseActivity implements View.OnClickList
     Button mSendButton;
     @Bind(R.id.comment_et)
     EditText mCommentET;
-
-    //    @OnClick({R.id.fab_add_comment, R.id.btn_send_comment})
-//    void onAddComment(View v){
-//        switch (v.getId()){
-//            case R.id.fab_add_comment:
-//                transformTo();
-//                break;
-//            case R.id.btn_send_comment:
-//                transformFrom();
-//                break;
-//        }
-//    }
     private List<Comment> mComments;
     private Comment comment;
     int pos;
@@ -383,6 +372,21 @@ public class AddCommentActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onCreateComment(Comment comment, Tunes tunes) {
+
+    }
+
+    @Override
+    public void playTune(Tunes t) {
+
+    }
+
+    @Override
+    public void sendMediaData(MediaData mediaData) {
+
+    }
+
+    @Override
+    public void sendCurentPlayPosition(int currentPosition) {
 
     }
 }

@@ -24,6 +24,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import net.glassstones.bambammusic.R;
+import net.glassstones.bambammusic.models.MediaData;
 
 import org.json.JSONObject;
 
@@ -206,5 +207,15 @@ public class LoginActivity extends BaseActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    @Override
+    public void sendMediaData(MediaData mediaData) {
+
+    }
+
+    @Override
+    public void sendCurentPlayPosition(int currentPosition) {
+
     }
 }

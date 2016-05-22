@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import net.glassstones.bambammusic.R;
+import net.glassstones.bambammusic.models.MediaData;
 import net.glassstones.bambammusic.ui.fragments.SettingsFragment;
 
 import butterknife.Bind;
@@ -107,6 +108,16 @@ public class SettingsActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void sendMediaData(MediaData mediaData) {
+
+    }
+
+    @Override
+    public void sendCurentPlayPosition(int currentPosition) {
+
     }
 
     //    /**

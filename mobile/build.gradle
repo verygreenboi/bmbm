@@ -33,12 +33,9 @@ android {
     signingConfigs {
         releaseConfig {
             storeFile file('C:\\Users\\Thompson\\OneDrive\\Documents\\keystore\\glassstones.jks');
-//            storePassword("P@bopov!b234...");
-//            keyAlias("Bam Bam");
-//            keyPassword("Pabopovib234.");
-            storePassword("P@b0p0v!b");
-            keyAlias("bambam");
-            keyPassword("P@b0p0v!b");
+            storePassword(project.STORE_PASSWORD);
+            keyAlias(project.KEY_ALIAS);
+            keyPassword(project.KEY_PASSWORD);
         }
     }
 
@@ -60,12 +57,12 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 
+    dexOptions { jumboMode true }
+
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    debugWearApp project(path: ':wear', configuration: 'debug')
-//    releaseWearApp project(path: ':wear', configuration: 'release')
     testCompile 'junit:junit:4.12'
     testCompile "org.robolectric:robolectric:3.0"
 
@@ -106,6 +103,10 @@ dependencies {
     compile 'me.tatarka.support:jobscheduler:0.1.1'
     compile 'com.parse.bolts:bolts-android:1.4.0'
     compile 'com.parse:parse-android:1.13.0'
+    compile 'org.jetbrains:annotations-java5:15.0'
+    compile 'com.h6ah4i.android:openslmediaplayer:0.6.0'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+
 }
 
 play {

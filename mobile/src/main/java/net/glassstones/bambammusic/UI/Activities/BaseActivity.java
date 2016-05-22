@@ -11,10 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.glassstones.bambammusic.R;
+import net.glassstones.bambammusic.intefaces.FragmentInteraction;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements FragmentInteraction {
 
     public abstract int contentResource();
 

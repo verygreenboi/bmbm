@@ -17,4 +17,6 @@ public interface OnCommentInteraction {
     void onNewComment(Tunes tune);
 
     void onCreateComment(Comment comment, Tunes tunes);
+
+    void playTune(Tunes t);
 }

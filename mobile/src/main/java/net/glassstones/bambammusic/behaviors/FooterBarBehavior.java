@@ -4,10 +4,9 @@ import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
-import com.example.android.coordinatedeffort.widget.FooterBarLayout;
+import net.glassstones.bambammusic.ui.widgets.FooterBarLayout;
 
 /**
  * Simple layout behavior that will track the state of the AppBarLayout

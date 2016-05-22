@@ -10,8 +10,14 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_signout"
+        android:id="@+id/action_show_player"
         android:orderInCategory="200"
+        android:title="Show"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_signout"
+        android:orderInCategory="300"
         android:title="Sign out"
         app:showAsAction="never" />
 </menu>

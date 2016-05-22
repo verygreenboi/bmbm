@@ -2,6 +2,7 @@ package net.glassstones.bambammusic.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -15,6 +16,7 @@ import net.glassstones.bambammusic.models.Tunes;
 import net.glassstones.library.utils.LogHelper;
 
 import org.greenrobot.eventbus.EventBus;
+import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,10 +27,12 @@ public class GetTunesTask extends AsyncTask<ParseUser, Void, List<Tunes>> {
     Context context;
     private OnTunesFetched mListener;
     private boolean streamToTop;
+    private int mSkip;
 
-    public GetTunesTask(Context context, boolean isStreamToTop) {
+    public GetTunesTask(Context context, boolean isStreamToTop, int skip) {
         this.streamToTop = isStreamToTop;
         this.context = context;
+        this.mSkip = skip;
     }
 
     public void setListener(OnTunesFetched l) {
@@ -44,7 +48,17 @@ public class GetTunesTask extends AsyncTask<ParseUser, Void, List<Tunes>> {
 
     @Override
     protected List<Tunes> doInBackground(ParseUser... params) {
-        ParseUser mUser = params[0];
+        return getTunes(params[0]);
+    }
+
+    @Override
+    protected void onPostExecute(List<Tunes> tunes) {
+        super.onPostExecute(tunes);
+        mListener.tunesFetched(tunes, streamToTop);
+    }
+
+    @Nullable
+    private List<Tunes> getTunes(ParseUser param) {
         List<Tunes> tunesList = new ArrayList<>();
 
         long DAY_IN_MS = 1000 * 60 * 60 * 24;
@@ -52,13 +66,13 @@ public class GetTunesTask extends AsyncTask<ParseUser, Void, List<Tunes>> {
 
         ParseQuery<ParseObject> friends = new ParseQuery<>("Activities");
         friends.whereEqualTo("type", "follow");
-        friends.whereEqualTo("from", mUser);
+        friends.whereEqualTo("from", param);
 
         ParseQuery<ParseObject> friendsTunes = new ParseQuery<>("Tunes");
         friendsTunes.whereMatchesKeyInQuery("owner", "to", friends);
 
         ParseQuery<ParseObject> myTune = new ParseQuery<>("Tunes");
-        myTune.whereEqualTo("owner", mUser);
+        myTune.whereEqualTo("owner", param);
 
         List<ParseQuery<ParseObject>> queries = new ArrayList<>();
 
@@ -67,6 +81,7 @@ public class GetTunesTask extends AsyncTask<ParseUser, Void, List<Tunes>> {
 
         ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
         mainQuery.setLimit(25);
+        mainQuery.setSkip(mSkip);
         mainQuery.whereGreaterThanOrEqualTo("createdAt", sda);
         mainQuery.orderByDescending("createdAt");
 
@@ -85,6 +100,11 @@ public class GetTunesTask extends AsyncTask<ParseUser, Void, List<Tunes>> {
             if (parseTunes.size() > 0) {
                 try {
                     tunesList = save(parseTunes, tunesList);
+                    /*
+                    * TODO: 11/05/2016
+                    * Synchronize tunes to remote like status
+                    */
+                    tunesList = syncLikes(tunesList);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -92,14 +112,13 @@ public class GetTunesTask extends AsyncTask<ParseUser, Void, List<Tunes>> {
         } else {
             EventBus.getDefault().post(new IntentServiceResult(Constants.TUNE_GET_FAILURE, exception));
         }
-
         return tunesList;
     }
 
-    @Override
-    protected void onPostExecute(List<Tunes> tunes) {
-        super.onPostExecute(tunes);
-        mListener.tunesFetched(tunes, streamToTop);
+    @Contract(value = "_ -> null", pure = true)
+    private List<Tunes> syncLikes(List<Tunes> tunesList) {
+        // FIXME: 11/05/2016
+        return tunesList;
     }
 
     private List<Tunes> save(List<ParseObject> parseTunes, List<Tunes> tunesList) throws ParseException {

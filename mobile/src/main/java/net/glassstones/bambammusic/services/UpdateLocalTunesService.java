@@ -17,6 +17,7 @@ import java.util.List;
 
 import me.tatarka.support.job.JobParameters;
 import me.tatarka.support.job.JobService;
+import me.tatarka.support.os.PersistableBundle;
 
 /**
  * Created by Thompson on 18/04/2016.
@@ -29,7 +30,9 @@ public class UpdateLocalTunesService extends JobService implements GetTunesTask.
     public boolean onStartJob(JobParameters params) {
         LogHelper.e(TAG, "Job started");
         AppPreferences ap = new AppPreferences(this);
-        GetTunesTask task = new GetTunesTask(this, ap.getTunelineIsFresh(Constants.KEY_TUNELINE_STATUS));
+        PersistableBundle bundle = params.getExtras();
+        int skip = bundle.getInt(Constants.KEY_SKIP);
+        GetTunesTask task = new GetTunesTask(this, ap.getTunelineIsFresh(Constants.KEY_TUNELINE_STATUS), skip);
         task.setListener(this);
         task.execute(ParseUser.getCurrentUser());
         return true;

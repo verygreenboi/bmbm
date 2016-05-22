@@ -1,15 +1,18 @@
 package net.glassstones.bambammusic.ui.fragments;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,11 +29,14 @@ import net.glassstones.bambammusic.BuildConfig;
 import net.glassstones.bambammusic.Common;
 import net.glassstones.bambammusic.Constants;
 import net.glassstones.bambammusic.R;
+import net.glassstones.bambammusic.intefaces.FragmentInteraction;
 import net.glassstones.bambammusic.intefaces.OnCommentInteraction;
 import net.glassstones.bambammusic.models.Comment;
 import net.glassstones.bambammusic.models.IntentServiceResult;
 import net.glassstones.bambammusic.models.TuneFetchModel;
 import net.glassstones.bambammusic.models.Tunes;
+import net.glassstones.bambammusic.services.PlayTuneService;
+import net.glassstones.bambammusic.services.PlayTuneService.PlaySongBinder;
 import net.glassstones.bambammusic.tasks.GetTunesTask;
 import net.glassstones.bambammusic.tasks.GetTunesTask.OnTunesFetched;
 import net.glassstones.bambammusic.ui.activities.AddCommentActivity;
@@ -73,6 +79,22 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     private TuneAdapter adapter;
     private List<Tunes> tunesList = new ArrayList<>();
     private AppPreferences ap;
+    private PlayTuneService mService;
+    private FragmentInteraction mInteractionListener;
+    private Handler h;
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            PlaySongBinder binder = (PlaySongBinder) service;
+            mService = binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
     public TunesFragment() {
         // Required empty public constructor
@@ -88,8 +110,30 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mInteractionListener = (FragmentInteraction) context;
+        } catch (ClassCastException e) {
+            // The activity doesn't implement the interface, throw exception
+            throw new ClassCastException(context.toString()
+                    + " must implement FragmentInteraction");
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = new Intent(getActivity(), PlayTuneService.class);
+
+        // Start Play service if it isn't already started
+        if (!Common.getsInstance().isMyServiceRunning(PlayTuneService.class)) {
+            getActivity().startService(intent);
+        }
+
+        // Bind service
+        getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
         if (getArguments() != null) {
             mParseId = getArguments().getString(PARSE_ID);
@@ -104,20 +148,27 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
         ap = new AppPreferences(getActivity());
 
+        setTunes(isCurrentUser);
+
+        setHasOptionsMenu(true);
+    }
+
+    private void setTunes(boolean isCurrentUser) {
+        List<Tunes> tx1 = getTunesFromRealm();
+
+        adapter = new TuneAdapter(tx1, getActivity(), isCurrentUser);
+
+        adapter.setListener(this);
+    }
+
+    private List<Tunes> getTunesFromRealm() {
         RealmResults<Tunes> tx = r.where(Tunes.class).findAll();
         tx.sort("createdAt", Sort.DESCENDING);
 
         for (Tunes t : tx) {
             tunesList.add(t);
         }
-
-        Log.e(TAG, String.valueOf(tunesList.size()));
-
-        adapter = new TuneAdapter(tunesList, getActivity(), isCurrentUser);
-
-        adapter.setListener(this);
-
-        setHasOptionsMenu(true);
+        return tx;
     }
 
     @Override
@@ -137,7 +188,7 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         super.onViewCreated(view, savedInstanceState);
 
         if (tunesList.size() < 1) {
-            GetTunesTask task = new GetTunesTask(getActivity(), false);
+            GetTunesTask task = new GetTunesTask(getActivity(), false, 0);
             task.setListener(this);
             task.execute(ParseUser.getCurrentUser());
         }
@@ -155,7 +206,7 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_clear){
+        if (id == R.id.action_clear) {
             if (BuildConfig.DEBUG) {
                 RealmResults<Tunes> tunes = r.where(Tunes.class).findAll();
                 r.beginTransaction();
@@ -165,7 +216,7 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 tuneList.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, com.parse.ParseException e) {
-                        for (ParseObject o : objects){
+                        for (ParseObject o : objects) {
                             o.deleteInBackground();
                         }
                     }
@@ -174,7 +225,7 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 comments.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, com.parse.ParseException e) {
-                        for (ParseObject o : objects){
+                        for (ParseObject o : objects) {
                             o.deleteInBackground();
                         }
                     }
@@ -183,7 +234,7 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 ac.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, com.parse.ParseException e) {
-                        for (ParseObject o : objects){
+                        for (ParseObject o : objects) {
                             o.deleteInBackground();
                         }
                     }
@@ -208,6 +259,13 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unbindService(mConnection);
+        h = null;
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
@@ -216,15 +274,18 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onRefresh() {
-        GetTunesTask task = new GetTunesTask(getActivity(), true);
+        GetTunesTask task = new GetTunesTask(getActivity(), true, 0);
         task.setListener(this);
         task.execute(ParseUser.getCurrentUser());
     }
 
+
     @Override
     public void onChange() {
+        adapter.updateAll(new ArrayList<Tunes>(), false);
         adapter.notifyDataSetChanged();
-        mRecycler.smoothScrollToPosition(0);
+        adapter.updateAll(getTunesFromRealm(), false);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -254,6 +315,14 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     }
 
+    @Override
+    public void playTune(Tunes t) {
+        if (mService != null) {
+            LogHelper.e(TAG, "Play");
+            mService.setTune(t);
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void doThis(IntentServiceResult intentServiceResult) {
         switch (intentServiceResult.getmResult()) {
@@ -263,6 +332,7 @@ public class TunesFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             case Constants.TUNE_GET_FAILURE:
                 Snackbar.make(mRecycler, "Cannot get tunes", Snackbar.LENGTH_SHORT).show();
                 break;
+
         }
     }
 

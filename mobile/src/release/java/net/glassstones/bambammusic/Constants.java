@@ -3,6 +3,8 @@ package net.glassstones.bambammusic;
 public class Constants {
     public static final String KEY_TUNELINE_STATUS = "isTunelineFresh";
 
+    public static final int KEY_NETWORK_OPERATION = 9954;
+
     public static final String KEY_TUNELINE_ARRAY_NAME = "result";
     public static final String TYPE_IMAGE = "image";
     public static final String TYPE_VIDEO = "video";

@@ -1,5 +1,6 @@
 package net.glassstones.bambammusic.ui.activities;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.ComponentName;
@@ -18,7 +19,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,10 +32,19 @@ import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import net.glassstones.bambammusic.Constants;
 import net.glassstones.bambammusic.R;
+import net.glassstones.bambammusic.models.IntentServiceResult;
+import net.glassstones.bambammusic.models.MediaData;
 import net.glassstones.bambammusic.services.UpdateLocalTunesService;
 import net.glassstones.bambammusic.ui.fragments.TunesFragment;
+import net.glassstones.bambammusic.ui.widgets.FooterBarLayout;
+import net.glassstones.bambammusic.utils.helpers.AnimUtils;
 import net.glassstones.library.utils.LogHelper;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -40,18 +52,22 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import me.tatarka.support.job.JobInfo;
 import me.tatarka.support.job.JobScheduler;
+import me.tatarka.support.os.PersistableBundle;
 
 
 public class HomeActivity extends BaseActivity {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private static final int JOB_ID = 100;
+    boolean isPlayerShown = false;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawer;
     @Bind(R.id.nvView)
     NavigationView nvDrawer;
+    @Bind(R.id.player)
+    FooterBarLayout mPlayer;
     @Bind(R.id.rv_voice_overlay)
     RelativeLayout mVoiceOverlay;
     @Bind({R.id.menu_item_3, R.id.menu_item_4})
@@ -149,9 +165,12 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void constructJob() {
+        PersistableBundle bundle = new PersistableBundle();
+        bundle.putInt(Constants.KEY_SKIP, 0);
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, UpdateLocalTunesService.class));
         builder.setPeriodic(300000)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setExtras(bundle)
                 .setPersisted(true);
         jobScheduler.schedule(builder.build());
     }
@@ -191,6 +210,8 @@ public class HomeActivity extends BaseActivity {
                 fm.beginTransaction().replace(R.id.container, TunesFragment.newInstance("parse_id", true)).commit();
             }
 
+            AnimUtils.collapse(mPlayer);
+
         } else {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -203,6 +224,18 @@ public class HomeActivity extends BaseActivity {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -263,9 +296,63 @@ public class HomeActivity extends BaseActivity {
                     }
                 }
             });
+        } else if (id == R.id.action_show_player){
+            if (!isPlayerShown) {
+                AnimUtils.expand(mPlayer);
+                isPlayerShown = true;
+            } else {
+                AnimUtils.collapse(mPlayer);
+                isPlayerShown = false;
+            }
         }
 
-        return super.onOptionsItemSelected(item);
+            return super.onOptionsItemSelected(item);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void doThis(IntentServiceResult intentServiceResult) {
+        switch (intentServiceResult.getmResult()) {
+            case Constants.KEY_NETWORK_OPERATION:
+                ProgressBar pb = (ProgressBar) mToolbar.findViewById(R.id.tb_network_indicator);
+                if (intentServiceResult.isSaved()) {
+                    pb.setVisibility(View.INVISIBLE);
+                } else {
+                    pb.setVisibility(View.GONE);
+                }
+                break;
+            case Constants.TUNE_STATUS_PLAY:
+                showPlayer();
+                break;
+        }
+    }
+
+    private void showPlayer() {
+        mPlayer.setScaleY(0f);
+        mPlayer.setVisibility(View.VISIBLE);
+        ObjectAnimator oa1 = ObjectAnimator.ofFloat(mPlayer, View.SCALE_Y, 1f).setDuration(500);
+        oa1.setInterpolator(new LinearInterpolator());
+        oa1.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        oa1.start();
     }
 
     @Override
@@ -318,4 +405,13 @@ public class HomeActivity extends BaseActivity {
         return onClickListener;
     }
 
+    @Override
+    public void sendMediaData(MediaData mediaData) {
+
+    }
+
+    @Override
+    public void sendCurentPlayPosition(int currentPosition) {
+
+    }
 }

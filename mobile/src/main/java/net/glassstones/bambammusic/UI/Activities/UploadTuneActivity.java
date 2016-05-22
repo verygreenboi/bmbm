@@ -148,4 +148,9 @@ public class UploadTuneActivity extends BaseActivity implements OnTrackFragmentI
         startService(i);
         finish();
     }
+
+    @Override
+    public void sendCurentPlayPosition(int currentPosition) {
+
+    }
 }

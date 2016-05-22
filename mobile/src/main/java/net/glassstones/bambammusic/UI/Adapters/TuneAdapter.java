@@ -22,16 +22,21 @@ import com.parse.FunctionCallback;
 import com.parse.GetCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import net.glassstones.bambammusic.Common;
+import net.glassstones.bambammusic.Constants;
 import net.glassstones.bambammusic.R;
 import net.glassstones.bambammusic.intefaces.OnCommentInteraction;
 import net.glassstones.bambammusic.models.Comment;
+import net.glassstones.bambammusic.models.IntentServiceResult;
 import net.glassstones.bambammusic.models.Tunes;
 import net.glassstones.bambammusic.ui.adapters.viewholders.MusicViewHolder;
 import net.glassstones.library.utils.LogHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,41 +75,51 @@ public class TuneAdapter extends Adapter<ViewHolder> {
         public void onClick(View v) {
             int pos = (int) v.getTag();
             Tunes t = mTunes.get(pos);
-            LogHelper.e(TAG, t.getTitle()+" liked");
             HashMap<String, String> params = new HashMap<>();
             params.put("tuneId", t.getParseId());
             if (!t.isLiked()) {
-                doLikeFunction("likeTune", params);
+                doLikeFunction("likeTune", params, pos);
             } else {
-                doLikeFunction("dislikeTune",params);
+                doLikeFunction("dislikeTune", params, pos);
             }
         }
     };
 
-    private void doLikeFunction(final String key, HashMap<String, String> params) {
+    private void doLikeFunction(final String key, HashMap<String, String> params, int pos) {
+        EventBus.getDefault().post(new IntentServiceResult(Constants.KEY_NETWORK_OPERATION, true));
+        Tunes t = mTunes.get(pos);
+        switch (key) {
+            case "likeTune":
+                r.beginTransaction();
+                t.setIsLiked(true);
+                r.commitTransaction();
+                ParseObject like = new ParseObject("Likes");
+                like.put("tuneId", t.getParseId());
+                like.put("user", ParseUser.getCurrentUser());
+                like.saveEventually();
+                break;
+            case "dislikeTune":
+                r.beginTransaction();
+                t.setIsLiked(false);
+                r.commitTransaction();
+                ParseQuery<ParseObject> likeQuery = ParseQuery.getQuery("Likes");
+                likeQuery.whereEqualTo("tuneId", t.getParseId());
+                likeQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject object, ParseException e) {
+                        if (e == null)
+                            object.deleteEventually();
+                    }
+                });
+                break;
+        }
+        LogHelper.e(TAG, t.getTitle()+(t.isLiked() ? " is liked" : " is disliked"));
+        notifyItemChanged(pos, t);
         ParseCloud.callFunctionInBackground(key, params, new FunctionCallback<Object>() {
             @Override
             public void done(Object object, ParseException e) {
-                Tunes t = mTunes.get(pos);
-                if (e == null){
-                    switch (key){
-                        case "likeTune":
-                            r.beginTransaction();
-                            t.setIsLiked(true);
-                            r.commitTransaction();
-                            break;
-                        case "dislikeTune":
-                            r.beginTransaction();
-                            t.setIsLiked(false);
-                            r.commitTransaction();
-                            break;
-                        default:
-                            r.beginTransaction();
-                            t.setIsLiked(false);
-                            r.commitTransaction();
-                            break;
-                    }
-                    notifyItemChanged(pos);
+                if (e == null) {
+                    EventBus.getDefault().post(new IntentServiceResult(Constants.KEY_NETWORK_OPERATION, false));
                 } else {
                     e.printStackTrace();
                 }
@@ -161,6 +176,20 @@ public class TuneAdapter extends Adapter<ViewHolder> {
                 Toast.makeText(mContext, mTunes.get(position).getArtUrl(), Toast.LENGTH_LONG).show();
                 Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
             }
+            vh.getLikeMetaImg().setTag(position);
+            vh.getmArt().setTag(position);
+            vh.getCommentMetaImg().setTag(position);
+
+            vh.getmArt().setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int pos = (int) v.getTag();
+                    Tunes t = mTunes.get(pos);
+                    mListener.playTune(t);
+                    return true;
+                }
+            });
+
             vh.getUserName().setText(t.getArtistName());
             PrettyTime p = new PrettyTime();
             vh.getCreatedAt().setText(p.format(t.getCreatedAt()));
@@ -173,15 +202,13 @@ public class TuneAdapter extends Adapter<ViewHolder> {
             } else {
                 vh.getLikeMetaImg().setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_heart_outline_white));
             }
-            vh.getLikeMetaImg().setTag(position);
-            if (t.isLiked()){
+            if (t.isLiked()) {
                 vh.getLikeMetaImg().setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_heart));
             } else {
                 vh.getLikeMetaImg().setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_heart_outline_white));
             }
             vh.getLikeMetaImg().setOnClickListener(likeOnClickListener);
 
-            vh.getCommentMetaImg().setTag(position);
             vh.getCommentMetaImg().setOnClickListener(commentOnClickListener);
 
             if (t.getmComments() != null && t.getCommentsCount() > 0) {
@@ -320,7 +347,7 @@ public class TuneAdapter extends Adapter<ViewHolder> {
         r.commitTransaction();
     }
 
-    private boolean isTuneLocal (Tunes t){
+    private boolean isTuneLocal(Tunes t) {
         Tunes tt = r.where(Tunes.class).equalTo("parseId", t.getParseId()).findFirst();
         return tt != null;
     }

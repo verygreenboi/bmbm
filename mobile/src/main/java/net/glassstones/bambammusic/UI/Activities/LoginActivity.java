@@ -7,24 +7,31 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
-import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
+import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import net.glassstones.bambammusic.R;
 import net.glassstones.bambammusic.models.MediaData;
+import net.glassstones.library.utils.LogHelper;
 
 import org.json.JSONObject;
 
@@ -35,12 +42,19 @@ import butterknife.Bind;
 
 public class LoginActivity extends BaseActivity {
 
+    private static final String TAG = LoginActivity.class.getSimpleName();
     @Bind(R.id.title)
     TextView mTitle;
     @Bind(R.id.loginButton)
     Button mLoginButton;
     @Bind(R.id.tos)
     TextView mTos;
+    @Bind(R.id.username_wrap)
+    LinearLayout mUsernameWrap;
+    @Bind(R.id.username_et)
+    EditText mUsername;
+    @Bind(R.id.confirm_username_Button)
+    Button mConfirmBtn;
 
     @Override
     public int contentResource() {
@@ -109,6 +123,8 @@ public class LoginActivity extends BaseActivity {
 //            Log.e("TAG", e.getMessage());
 //        }
 
+        mUsernameWrap.setAlpha(0f);
+
         mLoginButton.setAlpha(0f);
 
         mLoginButton.setEnabled(false);
@@ -139,6 +155,7 @@ public class LoginActivity extends BaseActivity {
                         }
                     });
                 }
+                mUsernameWrap.setTranslationY(-250);
             }
 
             @Override
@@ -169,30 +186,84 @@ public class LoginActivity extends BaseActivity {
         ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                if (user != null) {
+                if (user != null && e == null) {
                     if (user.isNew()) {
                         makeMeRequest(user);
                     } else {
-                        finishActivity();
+                        if (user.getBoolean("has_username"))
+                            finishActivity();
+                        else
+                            setUsername(user);
                     }
+                } else {
+                    e.printStackTrace();
+                    LogHelper.e("TAG", !TextUtils.isEmpty(e.getMessage()) ? e.getMessage() : "Fail");
                 }
             }
         });
     }
 
-    private void makeMeRequest(final ParseUser parseUser) {
-        parseUser.put("has_username", false);
+    private void setUsername(ParseUser user) {
+        makeMeRequest(user);
+    }
 
+    private void makeMeRequest(final ParseUser parseUser) {
+        if (parseUser.getBoolean("has_username")) {
+            finishActivity();
+        }
+        mLoginButton.setVisibility(View.GONE);
+        LogHelper.i(TAG, "Here");
+        mUsernameWrap.setAlpha(1f);
+        mConfirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String username = mUsername.getText().toString().trim();
+                if (TextUtils.isEmpty(username)) {
+                    Snackbar.make(mUsernameWrap, "Please enter a username.", Snackbar.LENGTH_LONG).show();
+                } else {
+                    final ParseQuery<ParseUser> user = ParseUser.getQuery();
+                    user.whereEqualTo("username", username.toLowerCase());
+                    user.getFirstInBackground(new GetCallback<ParseUser>() {
+                        @Override
+                        public void done(ParseUser object, ParseException e) {
+                            if (e == null) {
+                                Snackbar.make(mUsernameWrap, "Username taken. Try another one", Snackbar.LENGTH_LONG).show();
+                            } else {
+                                if (e.getCode() == ParseException.OBJECT_NOT_FOUND) {
+                                    saveUser(parseUser, username);
+                                } else {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private void saveUser(final ParseUser parseUser, final String username) {
         GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(final JSONObject user, GraphResponse response) {
                 parseUser.put("name", user.optString("name"));
                 parseUser.put("fb_id", user.optString("id"));
+                parseUser.put("f_username", username);
+                parseUser.setUsername(username.toLowerCase());
+                parseUser.put("has_username", true);
+                // 1. Instantiate an AlertDialog.Builder with its constructor
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                builder.setMessage("Saving user");
+                final AlertDialog dialog = builder.create();
+                dialog.show();
                 parseUser.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
+                        dialog.dismiss();
                         if (e == null) {
                             finishActivity();
+                        } else {
+                            Snackbar.make(mUsernameWrap, "Oops!!! Something bad happened", Snackbar.LENGTH_LONG).show();
                         }
                     }
                 });

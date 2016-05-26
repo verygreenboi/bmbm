@@ -26,4 +26,8 @@ public class Constants {
     public static final int TUNE_STATUS_PAUSE = 4002;
     public static final int TUNE_STATUS_STOP = 4003;
     public static final String KEY_SKIP = "skip";
+    public static final String KEY_USER_ID = "objectId";
+    public static final String KEY_FB_ID = "fb_id";
+    public static final String KEY_USER_ABOUT = "about";
+    public static final String KEY_USERNAME = "f_username";
 }

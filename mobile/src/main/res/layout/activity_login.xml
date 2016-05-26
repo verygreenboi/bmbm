@@ -24,6 +24,41 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_login" />
 
+    <LinearLayout
+        android:id="@+id/username.wrap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/title"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/username.et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColorHint="@color/md_grey_50"
+                android:textColor="@color/md_grey_50"
+                android:hint="@string/username"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/confirm.username.Button"
+            android:layout_width="242dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/colorAccent"
+            android:text="Confirm Username"/>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tos"
         android:layout_width="match_parent"
